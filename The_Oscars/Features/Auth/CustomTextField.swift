@@ -28,11 +28,11 @@ class CustomTextField: UIView {
     
     // MARK: - UI 설정
     private func setupUI(title: String, placeholder: String) {
-        titleLabel.text = "제목"
+        titleLabel.text = title
         titleLabel.font = UIFont.systemFont(ofSize: 12)
         titleLabel.textColor = .lightGray
         
-        textField.placeholder = "제목을 입력해주세요"
+        textField.placeholder = placeholder
         textField.borderStyle = .none
         textField.font = UIFont.systemFont(ofSize: 12)
         
