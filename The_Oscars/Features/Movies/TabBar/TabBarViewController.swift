@@ -6,24 +6,28 @@
 //
 
 import UIKit
+import SnapKit
 
-class TabBarViewController: UIViewController {
-
+class TabBarViewController: UITabBarController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setupTabBar()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setupTabBar() {
+        
+        let homeVC = HomeViewController()
+        let searchVC = SearchViewController()
+        let mypageVC = MyPageViewController()
+        
+        //탭바 아이템 설정
+        homeVC.tabBarItem = UITabBarItem(title: "홈", image: UIImage(systemName: "house.fill"), tag: 0)
+        searchVC.tabBarItem = UITabBarItem(title: "검색", image: UIImage(systemName: "sparkle.magnifyingglass"), tag: 1)
+        mypageVC.tabBarItem = UITabBarItem(title: "마이", image: UIImage(systemName: "rectangle.badge.person.crop"), tag: 2)
+        
+        self.tabBar.tintColor = .black
+        
+        viewControllers = [homeVC, searchVC, mypageVC]
     }
-    */
-
 }
