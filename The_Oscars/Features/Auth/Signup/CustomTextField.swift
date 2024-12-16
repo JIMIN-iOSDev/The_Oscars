@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class CustomTextField: UIView {
+class CustomTextField: UIView, UITextFieldDelegate {
     // MARK: - UI Components
     private let titleLabel = UILabel()
     private let textField = UITextField()
@@ -19,6 +19,7 @@ class CustomTextField: UIView {
     init(title: String, placeholder: String) {
         super.init(frame: .zero)
         setupUI(title: title, placeholder: placeholder)
+        textField.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -74,4 +75,13 @@ class CustomTextField: UIView {
             make.height.greaterThanOrEqualTo(60)
         }
     }
+    
+    // MARK: - UITextFieldDelegate Methods
+        func textFieldDidBeginEditing(_ textField: UITextField) {
+            bottomBorder.backgroundColor = UIColor(red: 237/255, green: 206/255, blue: 85/255, alpha: 1.0)
+        }
+        
+        func textFieldDidEndEditing(_ textField: UITextField) {
+            bottomBorder.backgroundColor = .gray
+        }
 }
