@@ -5,6 +5,7 @@
 //  Created by eden on 12/13/24.
 //
 
+<<<<<<< HEAD
 import UIKit
 import SnapKit
 
@@ -106,4 +107,14 @@ class SearchViewController: UIViewController {
 
 #Preview {
     SearchViewController()
+=======
+import Foundation
+import UIKit
+
+class SearchViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+    }
+>>>>>>> develop
 }
