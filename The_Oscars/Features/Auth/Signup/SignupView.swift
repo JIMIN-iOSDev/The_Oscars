@@ -62,39 +62,34 @@ class SignupView: UIView {
         }
         
         idField.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(40)
+            make.top.equalTo(titleLabel.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(60)
         }
         
         passwordField.snp.makeConstraints { make in
             make.top.equalTo(idField.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(60)
         }
         
         passwordConfirmField.snp.makeConstraints { make in
             make.top.equalTo(passwordField.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(60)
         }
         
         emailField.snp.makeConstraints{ make in
             make.top.equalTo(passwordConfirmField.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(60)
         }
         
         nameField.snp.makeConstraints{ make in
             make.top.equalTo(emailField.snp.bottom).offset(40)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(60)
+
         }
         
         phoneField.snp.makeConstraints{ make in
             make.top.equalTo(nameField.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(60)
         }
         
         signupButton.snp.makeConstraints { make in
