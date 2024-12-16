@@ -23,8 +23,16 @@ class SignupView: UIView {
     private let passwordField = CustomTextField(title: "비밀번호", placeholder: "비밀번호를 입력해 주세요")
     private let passwordConfirmField = CustomTextField(title: "비밀번호 확인", placeholder: "비밀번호를 다시 입력해 주세요")
     private let emailField = CustomTextField(title: "이메일 주소", placeholder: "이메일 주소를 입력해 주세요")
-    private let nameField = CustomTextField(title: "이름", placeholder: "이메일 주소를 입력해 주세요")
-    private let phoneField = CustomTextField(title: "휴대폰", placeholder: "이메일 주소를 입력해 주세요")
+    private let nameField = CustomTextField(title: "이름", placeholder: "오스카에서 사용할 이름을 입력해 주세요")
+    private let phoneField = CustomTextField(title: "전화번호", placeholder: "번호를 '-' 제외하고 입력해 주세요")
+    private let signupButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("회원가입 하기", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        button.backgroundColor = UIColor(red: 237/255, green: 206/255, blue: 85/255, alpha: 1.0)
+        return button
+    }()
     
     // MARK: - initialize
     override init(frame: CGRect) {
@@ -45,6 +53,7 @@ class SignupView: UIView {
         addSubview(emailField)
         addSubview(nameField)
         addSubview(phoneField)
+        addSubview(signupButton)
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(8)
@@ -86,6 +95,12 @@ class SignupView: UIView {
             make.top.equalTo(nameField.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(60)
+        }
+        
+        signupButton.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalTo(safeAreaLayoutGuide).offset(-20)
+            make.height.equalTo(50)
         }
     }
 }
