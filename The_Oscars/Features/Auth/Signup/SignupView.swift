@@ -11,6 +11,14 @@ import SnapKit
 
 class SignupView: UIView {
     // MARK: - UI Components
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "회원가입"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.textAlignment = .center
+        return label
+    }()
     private let idField = CustomTextField(title: "아이디", placeholder: "아이디를 입력해 주세요")
     private let passwordField = CustomTextField(title: "비밀번호", placeholder: "비밀번호를 입력해 주세요")
     private let passwordConfirmField = CustomTextField(title: "비밀번호 확인", placeholder: "비밀번호를 다시 입력해 주세요")
@@ -30,12 +38,21 @@ class SignupView: UIView {
     
     // MARK: - UI 설정
     private func setupLayout() {
+        addSubview(titleLabel)
         addSubview(idField)
         addSubview(passwordField)
         addSubview(passwordConfirmField)
+        addSubview(emailField)
+        addSubview(nameField)
+        addSubview(phoneField)
         
-        idField.snp.makeConstraints{ make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(50)
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide).offset(8)
+            make.leading.equalToSuperview().offset(20)
+        }
+        
+        idField.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(80)
         }
@@ -48,6 +65,24 @@ class SignupView: UIView {
         
         passwordConfirmField.snp.makeConstraints { make in
             make.top.equalTo(passwordField.snp.bottom).offset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(80)
+        }
+        
+        emailField.snp.makeConstraints{ make in
+            make.top.equalTo(passwordConfirmField.snp.bottom).offset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(80)
+        }
+        
+        nameField.snp.makeConstraints{ make in
+            make.top.equalTo(emailField.snp.bottom).offset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(80)
+        }
+        
+        phoneField.snp.makeConstraints{ make in
+            make.top.equalTo(nameField.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(80)
         }
