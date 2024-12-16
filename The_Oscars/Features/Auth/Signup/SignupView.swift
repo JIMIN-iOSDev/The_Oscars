@@ -9,6 +9,12 @@ import Foundation
 import UIKit
 import SnapKit
 
+extension UIView {
+    func addSubviews(_ views: UIView...) {
+        views.forEach { addSubview($0) }
+    }
+}
+
 class SignupView: UIView {
     // MARK: - UI Components
     private let titleLabel: UILabel = {
@@ -69,15 +75,17 @@ class SignupView: UIView {
     
     // MARK: - UI 설정
     private func setupLayout() {
-        addSubview(titleLabel)
-        addSubview(idField)
-        addSubview(passwordField)
-        addSubview(passwordConfirmField)
-        addSubview(emailField)
-        addSubview(nameField)
-        addSubview(phoneField)
-        addSubview(signupButton)
-        addSubview(loginNavgationStackView)
+        addSubviews(
+            titleLabel,
+            idField,
+            passwordField,
+            passwordConfirmField,
+            emailField,
+            nameField,
+            phoneField,
+            signupButton,
+            loginNavgationStackView
+        )
         
         loginNavgationStackView.addArrangedSubview(loginNavgationLabel)
         loginNavgationStackView.addArrangedSubview(loginNavgationButton)
@@ -111,7 +119,6 @@ class SignupView: UIView {
         nameField.snp.makeConstraints{ make in
             make.top.equalTo(emailField.snp.bottom).offset(40)
             make.leading.trailing.equalToSuperview().inset(20)
-            
         }
         
         phoneField.snp.makeConstraints{ make in

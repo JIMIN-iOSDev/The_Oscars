@@ -42,7 +42,7 @@ class CustomTextField: UIView, UITextFieldDelegate {
         errorLabel.text = "에러에러에러에러에러엘"
         errorLabel.font = UIFont.systemFont(ofSize: 8)
         errorLabel.textColor = .red
-        errorLabel.isHidden = false
+        errorLabel.isHidden = true
         
         addSubview(titleLabel)
         addSubview(textField)
@@ -77,11 +77,11 @@ class CustomTextField: UIView, UITextFieldDelegate {
     }
     
     // MARK: - UITextFieldDelegate Methods
-        func textFieldDidBeginEditing(_ textField: UITextField) {
-            bottomBorder.backgroundColor = UIColor(red: 237/255, green: 206/255, blue: 85/255, alpha: 1.0)
-        }
-        
-        func textFieldDidEndEditing(_ textField: UITextField) {
-            bottomBorder.backgroundColor = .gray
-        }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        bottomBorder.backgroundColor = UIColor(red: 237/255, green: 206/255, blue: 85/255, alpha: 1.0)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        bottomBorder.backgroundColor = .gray
+    }
 }
