@@ -23,7 +23,7 @@ class SignupView: UIView {
     private let passwordField = CustomTextField(title: "비밀번호", placeholder: "비밀번호를 입력해 주세요")
     private let passwordConfirmField = CustomTextField(title: "비밀번호 확인", placeholder: "비밀번호를 다시 입력해 주세요")
     private let emailField = CustomTextField(title: "이메일 주소", placeholder: "이메일 주소를 입력해 주세요")
-    private let nameField = CustomTextField(title: "이름", placeholder: "오스카에서 사용할 이름을 입력해 주세요")
+    private let nameField = CustomTextField(title: "이름", placeholder: "OSCARS에서 사용할 이름을 입력해 주세요")
     private let phoneField = CustomTextField(title: "전화번호", placeholder: "번호를 '-' 제외하고 입력해 주세요")
     private let signupButton: UIButton = {
         let button = UIButton()

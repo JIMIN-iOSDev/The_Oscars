@@ -38,9 +38,10 @@ class CustomTextField: UIView {
         
         bottomBorder.backgroundColor = .gray
         
+        errorLabel.text = "에러에러에러에러에러에러"
         errorLabel.font = UIFont.systemFont(ofSize: 8)
         errorLabel.textColor = .red
-        errorLabel.isHidden = true
+        errorLabel.isHidden = false
         
         addSubview(titleLabel)
         addSubview(textField)
@@ -66,6 +67,7 @@ class CustomTextField: UIView {
         errorLabel.snp.makeConstraints { make in
             make.top.equalTo(bottomBorder.snp.bottom).offset(4)
             make.leading.trailing.bottom.equalToSuperview()
+            make.height.greaterThanOrEqualTo(12)
         }
     }
 }
