@@ -39,7 +39,7 @@ class SignupView: UIView {
         label.textAlignment = .center
         return label
     }()
-    private let loginNavgationButton: UIButton = {
+    let loginNavgationButton: UIButton = {
         let button = UIButton()
         button.setTitle("로그인 하러 가기", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
@@ -54,7 +54,7 @@ class SignupView: UIView {
         stackView.distribution = .equalCentering
         return stackView
     }()
-    private let signupButton: UIButton = {
+    let signupButton: UIButton = {
         let button = UIButton()
         button.setTitle("회원가입 하기", for: .normal)
         button.setTitleColor(.black, for: .normal)

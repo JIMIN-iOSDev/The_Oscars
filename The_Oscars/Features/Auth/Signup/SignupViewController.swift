@@ -18,6 +18,7 @@ class SignupViewController: UIViewController {
         view.backgroundColor = .white
         
         setupLayout()
+        setupActions()
     }
     
     // MARK: - UI 설정
@@ -27,5 +28,15 @@ class SignupViewController: UIViewController {
         signupView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    
+    private func setupActions() {
+        signupView.loginNavgationButton.addTarget(self, action: #selector(navigateToLogin), for: .touchUpInside)
+    }
+    
+    @objc
+    private func navigateToLogin() {
+        let loginViewController = LoginViewController()
+        navigationController?.pushViewController(loginViewController, animated: true)
     }
 }

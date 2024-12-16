@@ -44,10 +44,12 @@ class CustomTextField: UIView, UITextFieldDelegate {
         errorLabel.textColor = .red
         errorLabel.isHidden = true
         
-        addSubview(titleLabel)
-        addSubview(textField)
-        addSubview(bottomBorder)
-        addSubview(errorLabel)
+        addSubviews(
+            titleLabel,
+            textField,
+            bottomBorder,
+            errorLabel
+        )
         
         titleLabel.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
