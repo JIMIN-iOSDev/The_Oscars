@@ -14,7 +14,6 @@ class CustomTextField: UIView {
     private let textField = UITextField()
     private let errorLabel = UILabel()
     private let bottomBorder = UIView()
-    private let button = UIButton()
     
     // MARK: - 초기화
     init(title: String, placeholder: String) {
@@ -30,11 +29,12 @@ class CustomTextField: UIView {
     private func setupUI(title: String, placeholder: String) {
         titleLabel.text = title
         titleLabel.font = UIFont.systemFont(ofSize: 12)
-        titleLabel.textColor = .lightGray
+        titleLabel.textColor = .black
         
         textField.placeholder = placeholder
         textField.borderStyle = .none
         textField.font = UIFont.systemFont(ofSize: 12)
+        textField.textColor = .black
         
         bottomBorder.backgroundColor = .gray
         
