@@ -40,6 +40,3 @@ class MovieDetailController: UIViewController {
     }
 }
 
-#Preview {
-    MovieDetailController()
-}
