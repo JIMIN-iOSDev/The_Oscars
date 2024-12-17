@@ -32,11 +32,23 @@ class SignupViewController: UIViewController {
     
     private func setupActions() {
         signupView.loginNavgationButton.addTarget(self, action: #selector(navigateToLogin), for: .touchUpInside)
+        signupView.checkIdButton.addTarget(self, action: #selector(checkIdAvailability), for: .touchUpInside)
+    }
+    
+    @objc
+    private func checkIdAvailability() {
+        showAlert(message: "아이디 중복 체크 버튼")
     }
     
     @objc
     private func navigateToLogin() {
-//        let loginViewController = LoginViewController()
-//        navigationController?.pushViewController(loginViewController, animated: true)
+        //        let loginViewController = LoginViewController()
+        //        navigationController?.pushViewController(loginViewController, animated: true)
+    }
+    
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }

@@ -26,7 +26,7 @@ class SignupView: UIView {
         return label
     }()
     private let idField = CustomTextField(title: "아이디", placeholder: "아이디를 입력해 주세요.")
-    private let checkIdButton: UIButton = {
+    let checkIdButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("중복 확인", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
