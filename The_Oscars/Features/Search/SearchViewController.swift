@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class SearchViewController: UIViewController, UITextFieldDelegate {
-    
+    //MARK: - UI Components
     // 검색창
     private let searchTextfield: UITextField = {
         let textfield = UITextField()
@@ -30,7 +30,7 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
         return label
     }()
     
-
+    //MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,6 +42,7 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
         configureUI()
     }
     
+    //MARK: - configureUI()
     private func configureUI() {
 
         [searchTextfield, recommendLabel]

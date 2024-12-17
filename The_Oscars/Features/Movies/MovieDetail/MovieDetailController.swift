@@ -9,7 +9,8 @@ import UIKit
 import SnapKit
 
 class MovieDetailController: UIViewController {
-    
+    //MARK: - UI Components
+    // 포스터
     private let movieImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
@@ -73,13 +74,14 @@ class MovieDetailController: UIViewController {
         return button
     }()
     
+    //MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = .white
         navigationItem.setHidesBackButton(true, animated: false)
 
-        // 버튼 없이 제스쳐로 뒤로 가기 - 해결안됨
+        // 버튼 없이 제스쳐로 뒤로 가기 - 네비게이션 테스트 버튼 연결해도 해결안됨
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         
@@ -87,6 +89,7 @@ class MovieDetailController: UIViewController {
         
     }
     
+    //MARK: - configureUI()
     private func configureUI() {
         
         [movieImage, titleLabel, dateLabel, audienceLabel, gradeLabel, explanationLabel, bookingButton]
