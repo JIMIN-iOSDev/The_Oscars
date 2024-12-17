@@ -14,5 +14,19 @@ class UserDefaultManager {
     
     private init() {}
     
-
+    func signupUser(_ user: UserModel) -> Bool {
+        var users: [UserModel] = []
+        
+        if let data = defaults.data(forKey: userKey),
+           let loadedUsers = try? JSONDecoder().decode([UserModel].self, from: data) {
+            users = loadedUsers
+        }
+        
+        users.append(user)
+        if let encoded = try? JSONEncoder().encode(users) {
+            defaults.set(encoded, forKey: userKey)
+            return true
+        }
+        return false
+    }
 }
