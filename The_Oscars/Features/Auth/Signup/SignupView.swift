@@ -26,6 +26,15 @@ class SignupView: UIView {
         return label
     }()
     private let idField = CustomTextField(title: "아이디", placeholder: "아이디를 입력해 주세요.")
+    private let checkIdButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("중복 확인", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = UIColor(red: 237/255, green: 206/255, blue: 85/255, alpha: 1.0)
+        button.layer.cornerRadius = 7
+        return button
+    }()
     private let passwordField = CustomTextField(title: "비밀번호", placeholder: "비밀번호를 입력해 주세요.")
     private let passwordConfirmField = CustomTextField(title: "비밀번호 확인", placeholder: "비밀번호를 다시 입력해 주세요.")
     private let emailField = CustomTextField(title: "이메일 주소", placeholder: "이메일 주소를 입력해 주세요.")
@@ -78,6 +87,7 @@ class SignupView: UIView {
         addSubviews(
             titleLabel,
             idField,
+            checkIdButton,
             passwordField,
             passwordConfirmField,
             emailField,
@@ -98,7 +108,16 @@ class SignupView: UIView {
         
         idField.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(30)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-120)
+        }
+        
+        checkIdButton.snp.makeConstraints { make in
+            make.centerY.equalTo(idField)
+            make.leading.equalTo(idField.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().inset(20)
+            make.width.equalTo(80)
+            make.height.equalTo(40)
         }
         
         passwordField.snp.makeConstraints { make in
