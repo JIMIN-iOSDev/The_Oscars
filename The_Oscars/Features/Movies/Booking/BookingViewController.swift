@@ -15,7 +15,7 @@ class MovieBookingViewController: UIViewController {
         let label = UILabel()
         label.text = "예매하기"
         label.font = UIFont.boldSystemFont(ofSize: 24)
-        label.textColor = .systemBlue
+        label.textColor = .systemYellow
         return label
     }()
     
@@ -42,7 +42,7 @@ class MovieBookingViewController: UIViewController {
     
     let countLabel: UILabel = { // 인원 수 표시
         let label = UILabel()
-        label.text = "1"
+        label.text = "0"
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.textAlignment = .center
         return label
@@ -75,14 +75,14 @@ class MovieBookingViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("결제하기", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        button.backgroundColor = .systemPurple
+        button.backgroundColor = .systemYellow
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
         return button
     }()
     
     // MARK: - Variables
-    var peopleCount: Int = 1 {
+    var peopleCount: Int = 0 {
         didSet {
             countLabel.text = "\(peopleCount)"
         }
@@ -90,7 +90,7 @@ class MovieBookingViewController: UIViewController {
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad()	
         setupView()
         setupActions()
     }
@@ -106,22 +106,22 @@ class MovieBookingViewController: UIViewController {
         
         // Layout
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(80)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
             make.leading.equalToSuperview().offset(20)
         }
         
         movieNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(40)
+            make.top.equalTo(titleLabel.snp.bottom).offset(50)
             make.leading.equalToSuperview().offset(20)
         }
         
         dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(movieNameLabel.snp.bottom).offset(40)
+            make.top.equalTo(movieNameLabel.snp.bottom).offset(100)
             make.leading.equalToSuperview().offset(20)
         }
         
         peopleLabel.snp.makeConstraints { make in
-            make.top.equalTo(dateLabel.snp.bottom).offset(40)
+            make.top.equalTo(dateLabel.snp.bottom).offset(100)
             make.leading.equalToSuperview().offset(20)
         }
         
@@ -145,12 +145,12 @@ class MovieBookingViewController: UIViewController {
         }
         
         priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(peopleLabel.snp.bottom).offset(40)
+            make.top.equalTo(peopleLabel.snp.bottom).offset(100)
             make.leading.equalToSuperview().offset(20)
         }
         
         bookButton.snp.makeConstraints { make in
-            make.top.equalTo(priceLabel.snp.bottom).offset(40)
+            make.top.equalTo(priceLabel.snp.bottom).offset(100)
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20)
             make.height.equalTo(50)
@@ -170,7 +170,7 @@ class MovieBookingViewController: UIViewController {
     }
     
     @objc private func decreasePeopleCount() {
-        if peopleCount > 1 { // 최소 인원 수 제한
+        if peopleCount > 0 { // 최소 인원 수 제한
             peopleCount -= 1
         }
     }
