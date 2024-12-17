@@ -20,7 +20,7 @@ class UserDefaultsManager {
         if let data = defaults.data(forKey: userKey),
            let users = try? JSONDecoder().decode([UserModel].self, from: data),
            let user = users.first(where: { $0.id == id && $0.password == password }) {
-
+            
             if let encodedUser = try? JSONEncoder().encode(user) {
                 defaults.set(encodedUser, forKey: loggedInUserKey)
             }
@@ -53,5 +53,14 @@ class UserDefaultsManager {
             return users.contains(where: { $0.id == id })
         }
         return false
+    }
+    
+    // 마이페이지
+    func getLoggedInUser() -> UserModel? {
+        if let data = defaults.data(forKey: loggedInUserKey),
+           let user = try? JSONDecoder().decode(UserModel.self, from: data) {
+            return user
+        }
+        return nil
     }
 }
