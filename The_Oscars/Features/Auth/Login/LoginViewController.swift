@@ -2,7 +2,7 @@
 //  LoginViewController.swift
 //  The_Oscars
 //
-//  Created by eden on 12/13/24.
+//  Created by t2023-m0149 on 12/17/24.
 //
 
 import Foundation
@@ -27,7 +27,7 @@ class LoginViewController: UIViewController {
         loginView.signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         loginView.findIdPasswordButton.addTarget(self, action: #selector(findIdPasswordButtonTapped), for: .touchUpInside)
     }
-    
+
     @objc private func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
     }
