@@ -15,6 +15,11 @@ class CustomTextField: UIView, UITextFieldDelegate {
     private let errorLabel = UILabel()
     private let bottomBorder = UIView()
     
+    var text: String? {
+        get { return textField.text }
+        set { textField.text = newValue }
+    }
+    
     // MARK: - 초기화
     init(title: String, placeholder: String) {
         super.init(frame: .zero)
