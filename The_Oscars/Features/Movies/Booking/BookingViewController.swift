@@ -52,7 +52,7 @@ class MovieBookingViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("-", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)
-        button.setTitleColor(.systemRed, for: .normal)
+        button.setTitleColor(.systemYellow, for: .normal)
         return button
     }()
     
@@ -60,7 +60,7 @@ class MovieBookingViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("+", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)
-        button.setTitleColor(.systemGreen, for: .normal)
+        button.setTitleColor(.systemYellow, for: .normal)
         return button
     }()
     
@@ -129,7 +129,7 @@ class MovieBookingViewController: UIViewController {
         }
         
         peopleLabel.snp.makeConstraints { make in
-            make.top.equalTo(dateLabel.snp.bottom).offset(100)
+            make.top.equalTo(dateLabel.snp.bottom).offset(130)
             make.leading.equalToSuperview().offset(20)
         }
         
@@ -163,7 +163,7 @@ class MovieBookingViewController: UIViewController {
         }
         
         bookButton.snp.makeConstraints { make in
-            make.top.equalTo(priceLabel.snp.bottom).offset(100)
+            make.top.equalTo(priceLabel.snp.bottom).offset(130)
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20)
             make.height.equalTo(50)
