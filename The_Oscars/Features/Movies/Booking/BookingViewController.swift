@@ -71,6 +71,14 @@ class MovieBookingViewController: UIViewController {
         return label
     }()
     
+    let priceValueLabel: UILabel = { // 총 가격
+        let label = UILabel()
+        label.text = "0원"
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.textAlignment = .right
+        return label
+    }()
+    
     let bookButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("결제하기", for: .normal)
@@ -100,7 +108,7 @@ class MovieBookingViewController: UIViewController {
         view.backgroundColor = .white
         
         // Add Subviews
-        [titleLabel, movieNameLabel, dateLabel, peopleLabel, countLabel, minusButton, plusButton, priceLabel, bookButton].forEach {
+        [titleLabel, movieNameLabel, dateLabel, peopleLabel, countLabel, minusButton, plusButton, priceLabel, priceValueLabel, bookButton].forEach {
             view.addSubview($0)
         }
         
@@ -149,6 +157,11 @@ class MovieBookingViewController: UIViewController {
             make.leading.equalToSuperview().offset(20)
         }
         
+        priceValueLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(priceLabel)
+            make.trailing.equalToSuperview().offset(-20)
+        }
+        
         bookButton.snp.makeConstraints { make in
             make.top.equalTo(priceLabel.snp.bottom).offset(100)
             make.leading.equalToSuperview().offset(20)
@@ -166,12 +179,20 @@ class MovieBookingViewController: UIViewController {
     @objc private func increasePeopleCount() {
         if peopleCount < 10 { // 최대 인원 수 제한
             peopleCount += 1
+            updateTotalPrice() // 총 가격 변동
         }
     }
     
     @objc private func decreasePeopleCount() {
         if peopleCount > 0 { // 최소 인원 수 제한
             peopleCount -= 1
+            updateTotalPrice() // 총 가격 변동
         }
+    }
+    
+    // MARK: - update Total Price
+    private func updateTotalPrice() {
+        let totalPrice = peopleCount * 5000
+        priceValueLabel.text = "\(totalPrice) 원"
     }
 }
