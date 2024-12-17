@@ -7,29 +7,6 @@
 
 import Foundation
 
-// MARK: - 최상위 API 응답 모델
-struct MovieResponse: Codable {
-    let dates: Dates?
-    let page: Int
-    let results: [Movie]
-    let totalPages: Int
-    let totalResults: Int
-    
-    enum CodingKeys: String, CodingKey {
-        case dates
-        case page
-        case results
-        case totalPages = "total_pages"
-        case totalResults = "total_results"
-    }
-}
-
-// MARK: - 날짜 범위 모델
-struct Dates: Codable {
-    let maximum: String
-    let minimum: String
-}
-
 // MARK: - 영화 데이터 모델
 struct Movie: Codable {
     let adult: Bool
