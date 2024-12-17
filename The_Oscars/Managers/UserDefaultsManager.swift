@@ -63,4 +63,9 @@ class UserDefaultsManager {
         }
         return nil
     }
+    
+    // 로그아웃
+    func logoutUser() {
+        defaults.removeObject(forKey: loggedInUserKey)
+    }
 }
