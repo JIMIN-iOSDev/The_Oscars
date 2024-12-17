@@ -6,193 +6,48 @@
 //
 
 import UIKit
-import SnapKit
 
 class MovieBookingViewController: UIViewController {
     
     // MARK: - UI Components
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "예매하기"
-        label.font = UIFont.boldSystemFont(ofSize: 24)
-        label.textColor = .systemYellow
-        return label
-    }()
-    
-    let movieNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "영화명"
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        return label
-    }()
-    
-    let dateLabel: UILabel = {
-        let label = UILabel()
-        label.text = "날짜"
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        return label
-    }()
-    
-    let peopleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "인원"
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        return label
-    }()
-    
-    let countLabel: UILabel = { // 인원 수 표시
-        let label = UILabel()
-        label.text = "0"
-        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        label.textAlignment = .center
-        return label
-    }()
-    
-    let minusButton: UIButton = { // 마이너스 버튼
-        let button = UIButton(type: .system)
-        button.setTitle("-", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)
-        button.setTitleColor(.systemYellow, for: .normal)
-        return button
-    }()
-    
-    let plusButton: UIButton = { // 플러스 버튼
-        let button = UIButton(type: .system)
-        button.setTitle("+", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)
-        button.setTitleColor(.systemYellow, for: .normal)
-        return button
-    }()
-    
-    let priceLabel: UILabel = {
-        let label = UILabel()
-        label.text = "총 가격"
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        return label
-    }()
-    
-    let priceValueLabel: UILabel = { // 총 가격
-        let label = UILabel()
-        label.text = "0원"
-        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        label.textAlignment = .right
-        return label
-    }()
-    
-    let bookButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("결제하기", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        button.backgroundColor = .systemYellow
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 10
-        return button
-    }()
+    let bookingView = MovieBookingView() // 커스텀 뷰 추가
     
     // MARK: - Variables
     var peopleCount: Int = 0 {
         didSet {
-            countLabel.text = "\(peopleCount)"
+            bookingView.countLabel.text = "\(peopleCount)"
+            updateTotalPrice()
         }
     }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
-        super.viewDidLoad()	
-        setupView()
+        super.viewDidLoad()
+        view = bookingView
         setupActions()
-    }
-    
-    // MARK: - Setup Views
-    private func setupView() {
-        view.backgroundColor = .white
-        
-        // Add Subviews
-        [titleLabel, movieNameLabel, dateLabel, peopleLabel, countLabel, minusButton, plusButton, priceLabel, priceValueLabel, bookButton].forEach {
-            view.addSubview($0)
-        }
-        
-        // Layout
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
-            make.leading.equalToSuperview().offset(20)
-        }
-        
-        movieNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(50)
-            make.leading.equalToSuperview().offset(20)
-        }
-        
-        dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(movieNameLabel.snp.bottom).offset(100)
-            make.leading.equalToSuperview().offset(20)
-        }
-        
-        peopleLabel.snp.makeConstraints { make in
-            make.top.equalTo(dateLabel.snp.bottom).offset(130)
-            make.leading.equalToSuperview().offset(20)
-        }
-        
-        // 인원 수와 버튼
-        countLabel.snp.remakeConstraints { make in
-            make.centerY.equalTo(peopleLabel) // 세로 정렬
-            make.centerX.equalToSuperview()   // 화면 중앙에 배치
-            make.width.equalTo(50)
-        }
-
-        minusButton.snp.remakeConstraints { make in
-            make.centerY.equalTo(peopleLabel) // 세로 정렬
-            make.trailing.equalTo(countLabel.snp.leading).offset(-20) // 숫자 왼쪽에 배치
-            make.width.height.equalTo(40)
-        }
-
-        plusButton.snp.remakeConstraints { make in
-            make.centerY.equalTo(peopleLabel) // 세로 정렬
-            make.leading.equalTo(countLabel.snp.trailing).offset(20) // 숫자 오른쪽에 배치
-            make.width.height.equalTo(40)
-        }
-        
-        priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(peopleLabel.snp.bottom).offset(100)
-            make.leading.equalToSuperview().offset(20)
-        }
-        
-        priceValueLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(priceLabel)
-            make.trailing.equalToSuperview().offset(-20)
-        }
-        
-        bookButton.snp.makeConstraints { make in
-            make.top.equalTo(priceLabel.snp.bottom).offset(130)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
-            make.height.equalTo(50)
-        }
     }
     
     // MARK: - Actions
     private func setupActions() {
-        plusButton.addTarget(self, action: #selector(increasePeopleCount), for: .touchUpInside)
-        minusButton.addTarget(self, action: #selector(decreasePeopleCount), for: .touchUpInside)
+        bookingView.plusButton.addTarget(self, action: #selector(increasePeopleCount), for: .touchUpInside)
+        bookingView.minusButton.addTarget(self, action: #selector(decreasePeopleCount), for: .touchUpInside)
     }
     
     @objc private func increasePeopleCount() {
-        if peopleCount < 10 { // 최대 인원 수 제한
+        if peopleCount < 10 {
             peopleCount += 1
-            updateTotalPrice() // 총 가격 변동
         }
     }
     
     @objc private func decreasePeopleCount() {
-        if peopleCount > 0 { // 최소 인원 수 제한
+        if peopleCount > 0 {
             peopleCount -= 1
-            updateTotalPrice() // 총 가격 변동
         }
     }
     
-    // MARK: - update Total Price
+    // MARK: - Update Total Price
     private func updateTotalPrice() {
         let totalPrice = peopleCount * 5000
-        priceValueLabel.text = "\(totalPrice) 원"
+        bookingView.priceValueLabel.text = "\(totalPrice)원"
     }
 }
