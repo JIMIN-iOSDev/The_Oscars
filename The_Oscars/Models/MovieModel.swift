@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+struct Movie: Decodable {
+    let title: String
+    let posterPath: String
+    
+    enum CodingKeys: String, CodingKey {
+        case title
+        case posterPath = "poster_path"
+    }
+}
