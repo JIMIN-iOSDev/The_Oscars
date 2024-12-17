@@ -37,13 +37,22 @@ class SignupViewController: UIViewController {
     
     @objc
     private func checkIdAvailability() {
-        showAlert(message: "아이디 중복 체크 버튼")
+        guard let id = signupView.idField.text, !id.isEmpty else {
+            showAlert(message: "아이디를 입력해 주세요.")
+            return
+        }
+        
+        if UserDefaultsManager.shared.isUserIdDuplicated(id) {
+            showAlert(message: "이미 존재하는 아이디입니다.")
+        } else {
+            showAlert(message: "사용 가능한 아이디입니다.")
+        }
     }
     
     @objc
     private func navigateToLogin() {
-        //        let loginViewController = LoginViewController()
-        //        navigationController?.pushViewController(loginViewController, animated: true)
+        // let loginViewController = LoginViewController()
+        // navigationController?.pushViewController(loginViewController, animated: true)
     }
     
     private func showAlert(message: String) {

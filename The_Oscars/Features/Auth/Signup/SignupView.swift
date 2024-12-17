@@ -25,7 +25,7 @@ class SignupView: UIView {
         label.textAlignment = .center
         return label
     }()
-    private let idField = CustomTextField(title: "아이디", placeholder: "아이디를 입력해 주세요.")
+    let idField = CustomTextField(title: "아이디", placeholder: "아이디를 입력해 주세요.")
     let checkIdButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("중복 확인", for: .normal)
