@@ -33,6 +33,7 @@ class SignupViewController: UIViewController {
     private func setupActions() {
         signupView.loginNavgationButton.addTarget(self, action: #selector(navigateToLogin), for: .touchUpInside)
         signupView.checkIdButton.addTarget(self, action: #selector(checkIdAvailability), for: .touchUpInside)
+        signupView.signupButton.addTarget(self, action: #selector(signup), for: .touchUpInside)
     }
     
     @objc
@@ -51,8 +52,15 @@ class SignupViewController: UIViewController {
     
     @objc
     private func navigateToLogin() {
+        // TODO: - LoginViewController merge시 주석 풀 예정
         // let loginViewController = LoginViewController()
         // navigationController?.pushViewController(loginViewController, animated: true)
+    }
+    
+    @objc
+    private func signup() {
+        // TODO: - UserDefault 사용해서 구현 예정
+        showAlert(message: "회원가입 구현 예정")
     }
     
     private func showAlert(message: String) {
