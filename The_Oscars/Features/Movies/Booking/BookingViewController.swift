@@ -71,23 +71,23 @@ class MovieBookingViewController: UIViewController {
         datePickerVC.view.addSubview(confirmButton)
         
         // AutoLayout 설정
-            NSLayoutConstraint.activate([
-                datePicker.centerXAnchor.constraint(equalTo: datePickerVC.view.centerXAnchor),
-                datePicker.topAnchor.constraint(equalTo: datePickerVC.view.topAnchor, constant: 10),
-                confirmButton.centerXAnchor.constraint(equalTo: datePickerVC.view.centerXAnchor),
-                confirmButton.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 10),
-                confirmButton.heightAnchor.constraint(equalToConstant: 40)
-            ])
-            
-            // 모달을 맨 아래에 위치시키기
-            if let sheet = datePickerVC.sheetPresentationController {
-                sheet.detents = [.custom { _ in 250 }] // 높이를 250pt로 고정
-                sheet.prefersGrabberVisible = true // 상단 핸들 표시
-                sheet.preferredCornerRadius = 20   // 모달 상단의 라운드 처리
-            }
-
+        NSLayoutConstraint.activate([
+            datePicker.centerXAnchor.constraint(equalTo: datePickerVC.view.centerXAnchor),
+            datePicker.topAnchor.constraint(equalTo: datePickerVC.view.topAnchor, constant: 10),
+            confirmButton.centerXAnchor.constraint(equalTo: datePickerVC.view.centerXAnchor),
+            confirmButton.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 10),
+            confirmButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        // 모달을 맨 아래에 위치시키기
+        if let sheet = datePickerVC.sheetPresentationController {
+            sheet.detents = [.custom { _ in 250 }] // 높이를 250pt로 고정
+            sheet.prefersGrabberVisible = true // 상단 핸들 표시
+            sheet.preferredCornerRadius = 20   // 모달 상단의 라운드 처리
+        }
+        
         // 화이트 배경 적용
-            presentWithWhiteBackground(datePickerVC, animated: true)
+        presentWithWhiteBackground(datePickerVC, animated: true)
     }
     
     @objc private func showTimePicker() { //시간 데이터
@@ -114,29 +114,36 @@ class MovieBookingViewController: UIViewController {
         timePickerVC.view.addSubview(confirmButton)
         
         // AutoLayout 설정
-            NSLayoutConstraint.activate([
-                timePicker.centerXAnchor.constraint(equalTo: timePickerVC.view.centerXAnchor),
-                timePicker.topAnchor.constraint(equalTo: timePickerVC.view.topAnchor, constant: 10),
-                confirmButton.centerXAnchor.constraint(equalTo: timePickerVC.view.centerXAnchor),
-                confirmButton.topAnchor.constraint(equalTo: timePicker.bottomAnchor, constant: 10),
-                confirmButton.heightAnchor.constraint(equalToConstant: 40)
-            ])
-            
-            // 모달을 맨 아래에 위치시키기
-            if let sheet = timePickerVC.sheetPresentationController {
-                sheet.detents = [.custom { _ in 250 }] // 높이를 250pt로 고정
-                sheet.prefersGrabberVisible = true // 상단 핸들 표시
-                sheet.preferredCornerRadius = 20   // 모달 상단의 라운드 처리
-            }
-
+        NSLayoutConstraint.activate([
+            timePicker.centerXAnchor.constraint(equalTo: timePickerVC.view.centerXAnchor),
+            timePicker.topAnchor.constraint(equalTo: timePickerVC.view.topAnchor, constant: 10),
+            confirmButton.centerXAnchor.constraint(equalTo: timePickerVC.view.centerXAnchor),
+            confirmButton.topAnchor.constraint(equalTo: timePicker.bottomAnchor, constant: 10),
+            confirmButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        // 모달을 맨 아래에 위치시키기
+        if let sheet = timePickerVC.sheetPresentationController {
+            sheet.detents = [.custom { _ in 250 }] // 높이를 250pt로 고정
+            sheet.prefersGrabberVisible = true // 상단 핸들 표시
+            sheet.preferredCornerRadius = 20   // 모달 상단의 라운드 처리
+        }
+        
         // 화이트 배경 적용
-            presentWithWhiteBackground(timePickerVC, animated: true)
+        presentWithWhiteBackground(timePickerVC, animated: true)
     }
     
     // MARK: - Update Total Price
     private func updateTotalPrice() {
         let totalPrice = peopleCount * 5000
-        bookingView.priceValueLabel.text = "\(totalPrice)원"
+        
+        // NumberFormatter를 사용해 쉼표 추가
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal // 숫자 스타일을 소수점 형식으로 설정
+        
+        if let formattedPrice = formatter.string(from: NSNumber(value: totalPrice)) {
+            bookingView.priceValueLabel.text = "\(formattedPrice)원"
+        }
     }
 }
 
