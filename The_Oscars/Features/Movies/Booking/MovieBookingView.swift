@@ -145,7 +145,7 @@ class MovieBookingView: UIView {
         }
         
         peopleLabel.snp.makeConstraints { make in
-            make.top.equalTo(dateLabel.snp.bottom).offset(100)
+            make.top.equalTo(dateLabel.snp.bottom).offset(130)
             make.leading.equalToSuperview().offset(20)
         }
         
@@ -178,7 +178,7 @@ class MovieBookingView: UIView {
         }
         
         bookButton.snp.makeConstraints { make in
-            make.top.equalTo(priceLabel.snp.bottom).offset(130)
+            make.top.equalTo(priceLabel.snp.bottom).offset(100)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(50)
         }
