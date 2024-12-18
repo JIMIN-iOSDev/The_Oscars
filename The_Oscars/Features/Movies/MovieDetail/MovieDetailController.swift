@@ -9,6 +9,9 @@ import UIKit
 import SnapKit
 
 class MovieDetailController: UIViewController {
+    
+    var movie: Movie?
+    
     //MARK: - UI Components
     // 포스터
     private let movieImage: UIImageView = {
@@ -21,7 +24,6 @@ class MovieDetailController: UIViewController {
     // 영화 제목
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "삭제예정"
         label.textColor = .black
         label.font = .boldSystemFont(ofSize: 20)
         return label
@@ -30,36 +32,40 @@ class MovieDetailController: UIViewController {
     // 개봉일
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.text = "삭제예정2"
         label.textColor = .gray
         label.font = .systemFont(ofSize: 15)
         return label
     }()
     
-    // 누적 관객 수
-    private let audienceLabel: UILabel = {
-        let label = UILabel()
-        label.text = "삭제예정3"
-        label.textColor = .gray
-        label.font = .systemFont(ofSize: 15)
-        return label
-    }()
+//    // 누적 관객 수
+//    private let audienceLabel: UILabel = {
+//        let label = UILabel()
+//        label.textColor = .gray
+//        label.font = .systemFont(ofSize: 15)
+//        return label
+//    }()
     
     // 평점
     private let gradeLabel: UILabel = {
         let label = UILabel()
-        label.text = "삭제예정4"
         label.textColor = .gray
         label.font = .systemFont(ofSize: 20)
         return label
     }()
     
     // 세부설명
+    private let explanationScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = true
+        return scrollView
+    }()
+    
     private let explanationLabel: UILabel = {
         let label = UILabel()
-        label.text = "삭제예정5"
         label.textColor = .gray
         label.font = .systemFont(ofSize: 15)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
     
@@ -86,14 +92,48 @@ class MovieDetailController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         
         configureUI()
+        loadMovieDetails()
+    }
+    
+    private func loadMovieDetails() {
+        guard let movie = movie else { return }
         
+        titleLabel.text = movie.title
+        dateLabel.text = "개봉일 \(movie.releaseDate ?? "미정")"
+        
+        if let voteAverage = movie.voteAverage {
+                gradeLabel.text = "❤️\(String(format: "%.1f", voteAverage))"
+            } else {
+                gradeLabel.text = "❤️0.0"
+            }
+        explanationLabel.text = movie.overview
+        
+        // 포스터 이미지 로드
+        if let posterPath = movie.posterPath {
+            let urlString = "https://image.tmdb.org/t/p/w500\(posterPath)"
+            loadImage(from: urlString)
+        }
+    }
+    
+    private func loadImage(from urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+        
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self, let data = data, error == nil else { return }
+            
+            DispatchQueue.main.async {
+                self.movieImage.image = UIImage(data: data)
+            }
+        }.resume()
     }
     
     //MARK: - configureUI()
     private func configureUI() {
         
-        [movieImage, titleLabel, dateLabel, audienceLabel, gradeLabel, explanationLabel, bookingButton]
+        [movieImage, titleLabel, dateLabel, gradeLabel, explanationScrollView, bookingButton]
             .forEach { view.addSubview($0) }
+        
+        explanationScrollView.addSubview(explanationLabel)
         
         movieImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
@@ -103,7 +143,7 @@ class MovieDetailController: UIViewController {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(movieImage.snp.bottom).offset(25)
+            $0.top.equalTo(movieImage.snp.bottom).offset(20)
             $0.leading.equalTo(movieImage.snp.leading)
         }
         
@@ -112,22 +152,32 @@ class MovieDetailController: UIViewController {
             $0.leading.equalTo(movieImage.snp.leading)
         }
         
-        audienceLabel.snp.makeConstraints {
-            $0.top.equalTo(dateLabel.snp.bottom).offset(10)
-            $0.leading.equalTo(movieImage.snp.leading)
-        }
+//        audienceLabel.snp.makeConstraints {
+//            $0.top.equalTo(dateLabel.snp.bottom).offset(10)
+//            $0.leading.equalTo(movieImage.snp.leading)
+//        }
         
         gradeLabel.snp.makeConstraints {
-            $0.top.equalTo(dateLabel.snp.top).offset(7.5)
+            $0.centerY.equalTo(dateLabel)
             $0.trailing.equalTo(movieImage.snp.trailing)
         }
         
-        explanationLabel.snp.makeConstraints {
-            $0.top.equalTo(audienceLabel.snp.bottom).offset(30)
+        explanationScrollView.snp.makeConstraints {
+            $0.top.equalTo(dateLabel.snp.bottom).offset(30)
             $0.leading.equalTo(movieImage.snp.leading)
+            $0.trailing.equalTo(movieImage.snp.trailing)
+            $0.bottom.equalTo(bookingButton.snp.top).offset(-5)
+        }
+        
+        explanationLabel.snp.makeConstraints {
+            $0.top.equalTo(explanationScrollView.snp.top).offset(10)
+            $0.leading.equalTo(explanationScrollView.snp.leading).offset(10)
+            $0.trailing.equalTo(explanationScrollView.snp.trailing).offset(-10)
+            $0.bottom.equalTo(explanationScrollView.snp.bottom).offset(-10)
         }
         
         bookingButton.snp.makeConstraints {
+            $0.top.equalTo(explanationLabel.snp.bottom).offset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
             $0.centerX.equalToSuperview()
             $0.leading.equalTo(movieImage.snp.leading)
