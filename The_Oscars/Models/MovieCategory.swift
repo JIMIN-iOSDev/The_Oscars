@@ -13,10 +13,6 @@ enum MovieCategory: String {
     case upcoming = "upcoming"
     case topRated = "top_rated"
     
-    var urlPath: String {
-        return "https://api.themoviedb.org/3/movie/\(self.rawValue)"
-    }
-    
     var description: String {
         switch self {
         case .nowPlaying: return "Now Playing"
