@@ -64,8 +64,12 @@ class MovieBookingViewController: UIViewController {
             UserDefaultsManager.shared.saveBooking(booking)
             print("예매 정보가 저장되었습니다: \(booking)")
             
-            // 영화 목록으로 돌아가기
-            navigationController?.popToRootViewController(animated: true)
+        // 네비게이션 스택에서 MovieListViewController로 이동
+            if let movieListVC = navigationController?.viewControllers.first(where: { $0 is MovieListViewController }) {
+                navigationController?.popToViewController(movieListVC, animated: true)
+            } else {
+                print("MovieListViewController가 네비게이션 스택에 없습니다.")
+            }
         }
     
     @objc private func showDatePicker() { // 날짜 데이터
