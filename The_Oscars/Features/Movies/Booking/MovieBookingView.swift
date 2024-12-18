@@ -89,6 +89,26 @@ class MovieBookingView: UIView {
         return button
     }()
     
+    let dateButton: UIButton = { // 날짜 선택 버튼
+        let button = UIButton(type: .system)
+        button.setTitle("날짜 선택", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.backgroundColor = UIColor.systemGray5
+        button.layer.cornerRadius = 8
+        return button
+    }()
+
+    let timeButton: UIButton = { // 시간 선택 버튼
+        let button = UIButton(type: .system)
+        button.setTitle("시간 선택", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.backgroundColor = UIColor.systemGray5
+        button.layer.cornerRadius = 8
+        return button
+    }()
+    
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -104,13 +124,13 @@ class MovieBookingView: UIView {
         backgroundColor = .white
         
         // Add Subviews
-        [titleLabel, movieNameLabel, dateLabel, peopleLabel, countLabel, minusButton, plusButton, priceLabel, priceValueLabel, bookButton].forEach {
+        [titleLabel, movieNameLabel, dateLabel, peopleLabel, countLabel, minusButton, plusButton, priceLabel, priceValueLabel, bookButton, dateButton, timeButton].forEach {
             addSubview($0)
         }
         
         // Layout
         titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(10)
+            make.top.equalToSuperview().offset(90)
             make.leading.equalToSuperview().offset(20)
         }
         
@@ -120,12 +140,12 @@ class MovieBookingView: UIView {
         }
         
         dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(movieNameLabel.snp.bottom).offset(100)
+            make.top.equalTo(movieNameLabel.snp.bottom).offset(130)
             make.leading.equalToSuperview().offset(20)
         }
         
         peopleLabel.snp.makeConstraints { make in
-            make.top.equalTo(dateLabel.snp.bottom).offset(130)
+            make.top.equalTo(dateLabel.snp.bottom).offset(100)
             make.leading.equalToSuperview().offset(20)
         }
         
@@ -161,6 +181,20 @@ class MovieBookingView: UIView {
             make.top.equalTo(priceLabel.snp.bottom).offset(130)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(50)
+        }
+        
+        dateButton.snp.makeConstraints { make in
+            make.top.equalTo(dateLabel.snp.bottom).offset(20)
+            make.leading.equalToSuperview().offset(20)
+            make.width.equalTo(120)
+            make.height.equalTo(40)
+        }
+
+        timeButton.snp.makeConstraints { make in
+            make.centerY.equalTo(dateButton)
+            make.leading.equalTo(dateButton.snp.trailing).offset(20)
+            make.width.equalTo(120)
+            make.height.equalTo(40)
         }
     }
 }
