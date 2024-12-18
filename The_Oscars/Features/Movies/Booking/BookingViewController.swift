@@ -33,6 +33,7 @@ class MovieBookingViewController: UIViewController {
         bookingView.minusButton.addTarget(self, action: #selector(decreasePeopleCount), for: .touchUpInside)
         bookingView.dateButton.addTarget(self, action: #selector(showDatePicker), for: .touchUpInside)
         bookingView.timeButton.addTarget(self, action: #selector(showTimePicker), for: .touchUpInside)
+        bookingView.bookButton.addTarget(self, action: #selector(bookMovie), for: .touchUpInside)
     }
     
     @objc private func increasePeopleCount() {
@@ -46,6 +47,26 @@ class MovieBookingViewController: UIViewController {
             peopleCount -= 1
         }
     }
+    
+    @objc private func bookMovie() {
+            guard let movieName = bookingView.movieNameLabel.text,
+                  let date = bookingView.dateButton.title(for: .normal),
+                  let time = bookingView.timeButton.title(for: .normal) else {
+                print("필요한 정보가 없습니다!")
+                return
+            }
+            
+            let formattedDateTime = "\(date) \(time)" // 날짜와 시간을 합침
+            let totalPrice = peopleCount * 5000
+            
+            let booking = Booking(movieName: movieName, date: formattedDateTime, peopleCount: peopleCount, totalPrice: totalPrice)
+            
+            UserDefaultsManager.shared.saveBooking(booking)
+            print("예매 정보가 저장되었습니다: \(booking)")
+            
+            // 영화 목록으로 돌아가기
+            navigationController?.popToRootViewController(animated: true)
+        }
     
     @objc private func showDatePicker() { // 날짜 데이터
         let datePickerVC = UIViewController()

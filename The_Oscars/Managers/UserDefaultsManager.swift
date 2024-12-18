@@ -12,6 +12,7 @@ class UserDefaultsManager {
     private let defaults = UserDefaults.standard
     private let userKey = "users"
     private let loggedInUserKey = "loggedInUser"
+    private let bookingKey = "bookings" // 예매 데이터를 저장할 키
     
     private init() {}
     
@@ -67,5 +68,33 @@ class UserDefaultsManager {
     // 로그아웃
     func logoutUser() {
         defaults.removeObject(forKey: loggedInUserKey)
+    }
+    
+    // MARK: - 예매 데이터 저장
+    func saveBooking(_ booking: Booking) {
+        var bookings: [Booking] = []
+        
+        // 기존 저장된 데이터 가져오기
+        if let data = defaults.data(forKey: bookingKey),
+           let savedBookings = try? JSONDecoder().decode([Booking].self, from: data) {
+            bookings = savedBookings
+        }
+        
+        // 새로운 데이터 추가
+        bookings.append(booking)
+        
+        // 저장
+        if let encoded = try? JSONEncoder().encode(bookings) {
+            defaults.set(encoded, forKey: bookingKey)
+        }
+    }
+    
+    // MARK: - 예매 데이터 불러오기
+    func getBookings() -> [Booking] {
+        if let data = defaults.data(forKey: bookingKey),
+           let bookings = try? JSONDecoder().decode([Booking].self, from: data) {
+            return bookings
+        }
+        return []
     }
 }
