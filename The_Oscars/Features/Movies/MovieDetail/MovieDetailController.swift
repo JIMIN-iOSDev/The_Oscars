@@ -17,7 +17,7 @@ class MovieDetailController: UIViewController {
     private let movieImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
-        image.backgroundColor = .cyan
+        image.backgroundColor = .white
         return image
     }()
     
@@ -37,14 +37,6 @@ class MovieDetailController: UIViewController {
         return label
     }()
     
-//    // 누적 관객 수
-//    private let audienceLabel: UILabel = {
-//        let label = UILabel()
-//        label.textColor = .gray
-//        label.font = .systemFont(ofSize: 15)
-//        return label
-//    }()
-    
     // 평점
     private let gradeLabel: UILabel = {
         let label = UILabel()
@@ -57,6 +49,7 @@ class MovieDetailController: UIViewController {
     private let explanationScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = true
+        scrollView.showsHorizontalScrollIndicator = false
         return scrollView
     }()
     
@@ -70,13 +63,14 @@ class MovieDetailController: UIViewController {
     }()
     
     // 예매 버튼
-    private let bookingButton: UIButton = {
+    private lazy var bookingButton: UIButton = {
         let button = UIButton()
         button.setTitle("예매하기", for: .normal)
         button.setTitleColor(.systemYellow, for: .normal)
         button.layer.borderColor = UIColor.systemYellow.cgColor
         button.layer.borderWidth = 2
         button.layer.cornerRadius = 10
+//        button.addTarget(self, action: #selector(bookingButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -87,13 +81,18 @@ class MovieDetailController: UIViewController {
         self.view.backgroundColor = .white
         navigationItem.setHidesBackButton(true, animated: false)
 
-        // 버튼 없이 제스쳐로 뒤로 가기 - 네비게이션 테스트 버튼 연결해도 해결안됨
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         configureUI()
         loadMovieDetails()
     }
+    
+    // 예매 페이지와 모달 연결
+//    @objc private func bookingButtonTapped() {
+//        let bookingVC = BookingViewController()
+//        bookingVC.modalPresentationStyle = .fullScreen
+//        present(bookingVC, animated: true, completion: nil)
+//    }
     
     private func loadMovieDetails() {
         guard let movie = movie else { return }
@@ -137,25 +136,22 @@ class MovieDetailController: UIViewController {
         
         movieImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(100)
+            $0.top.equalToSuperview().offset(80)
             $0.width.equalTo(view.bounds.width - 140)
             $0.height.equalTo(view.bounds.height / 2)
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(movieImage.snp.bottom).offset(20)
+            $0.top.equalTo(movieImage.snp.bottom).offset(15)
             $0.leading.equalTo(movieImage.snp.leading)
+            $0.height.equalTo(25)
         }
         
         dateLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(15)
             $0.leading.equalTo(movieImage.snp.leading)
+            $0.height.equalTo(20)
         }
-        
-//        audienceLabel.snp.makeConstraints {
-//            $0.top.equalTo(dateLabel.snp.bottom).offset(10)
-//            $0.leading.equalTo(movieImage.snp.leading)
-//        }
         
         gradeLabel.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
@@ -163,10 +159,10 @@ class MovieDetailController: UIViewController {
         }
         
         explanationScrollView.snp.makeConstraints {
-            $0.top.equalTo(dateLabel.snp.bottom).offset(30)
+            $0.top.equalTo(dateLabel.snp.bottom).offset(15)
             $0.leading.equalTo(movieImage.snp.leading)
             $0.trailing.equalTo(movieImage.snp.trailing)
-            $0.bottom.equalTo(bookingButton.snp.top).offset(-5)
+            $0.bottom.equalTo(bookingButton.snp.top).offset(-15)
         }
         
         explanationLabel.snp.makeConstraints {
@@ -174,16 +170,26 @@ class MovieDetailController: UIViewController {
             $0.leading.equalTo(explanationScrollView.snp.leading).offset(10)
             $0.trailing.equalTo(explanationScrollView.snp.trailing).offset(-10)
             $0.bottom.equalTo(explanationScrollView.snp.bottom).offset(-10)
+            
+            $0.width.equalTo(view.bounds.width - 160)
+            $0.height.greaterThanOrEqualTo(explanationScrollView.snp.height)
         }
         
         bookingButton.snp.makeConstraints {
-            $0.top.equalTo(explanationLabel.snp.bottom).offset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
             $0.centerX.equalToSuperview()
             $0.leading.equalTo(movieImage.snp.leading)
             $0.trailing.equalTo(movieImage.snp.trailing)
             $0.height.equalTo(40)
         }
+    }
+}
+
+//MARK: - extension
+// 뒤로가기 제스쳐 extension
+extension MovieDetailController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
 
