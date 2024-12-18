@@ -47,7 +47,7 @@ class MovieBookingViewController: UIViewController {
         }
     }
     
-    @objc private func showDatePicker() {
+    @objc private func showDatePicker() { // 날짜 데이터
         let datePickerVC = UIViewController()
         datePickerVC.modalPresentationStyle = .pageSheet
         datePickerVC.preferredContentSize = CGSize(width: view.frame.width, height: 250)
@@ -86,10 +86,11 @@ class MovieBookingViewController: UIViewController {
                 sheet.preferredCornerRadius = 20   // 모달 상단의 라운드 처리
             }
 
-        present(datePickerVC, animated: true)
+        // 화이트 배경 적용
+            presentWithWhiteBackground(datePickerVC, animated: true)
     }
     
-    @objc private func showTimePicker() {
+    @objc private func showTimePicker() { //시간 데이터
         let timePickerVC = UIViewController()
         timePickerVC.modalPresentationStyle = .pageSheet
         timePickerVC.preferredContentSize = CGSize(width: view.frame.width, height: 250)
@@ -128,12 +129,31 @@ class MovieBookingViewController: UIViewController {
                 sheet.preferredCornerRadius = 20   // 모달 상단의 라운드 처리
             }
 
-        present(timePickerVC, animated: true)
+        // 화이트 배경 적용
+            presentWithWhiteBackground(timePickerVC, animated: true)
     }
     
     // MARK: - Update Total Price
     private func updateTotalPrice() {
         let totalPrice = peopleCount * 5000
         bookingView.priceValueLabel.text = "\(totalPrice)원"
+    }
+}
+
+// MARK: - UIViewController Extension for White Background
+extension UIViewController {
+    func presentWithWhiteBackground(_ viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> Void)? = nil) {
+        // 모달 창에 화이트 배경 뷰 추가
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = .white
+        backgroundView.frame = self.view.bounds
+        backgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        // 뷰 컨트롤러의 뷰에 배경 추가
+        viewControllerToPresent.view.insertSubview(backgroundView, at: 0)
+        viewControllerToPresent.modalPresentationStyle = .overFullScreen
+        
+        // 모달 표시
+        self.present(viewControllerToPresent, animated: animated, completion: completion)
     }
 }
