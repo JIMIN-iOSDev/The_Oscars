@@ -11,8 +11,9 @@ class MovieCell: UICollectionViewCell {
     
     static let reuseIdentifier = "MovieCell"
     
-    private let titleLabel = UILabel()
     private let posterImageView = UIImageView()
+    private let titleLabel = UILabel()
+    
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,18 +25,19 @@ class MovieCell: UICollectionViewCell {
     }
 
     private func setupUI() {
-        [titleLabel, posterImageView]
+        [posterImageView, titleLabel]
             .forEach { contentView.addSubview($0) }
-
-        titleLabel.snp.makeConstraints {
-            $0.centerX.equalTo(contentView)
-            $0.bottom.equalTo(contentView.snp.bottom).offset(-10)
-        }
-
+        
         posterImageView.snp.makeConstraints {
             $0.top.equalTo(contentView)
             $0.leading.trailing.equalTo(contentView)
-            $0.bottom.equalTo(titleLabel.snp.top).offset(-10)
+            $0.height.equalTo(contentView.snp.width)
+        }
+        
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(posterImageView.snp.bottom).offset(10)
+            $0.centerX.equalTo(contentView)
+            $0.bottom.equalTo(contentView).offset(-10)
         }
     }
 }

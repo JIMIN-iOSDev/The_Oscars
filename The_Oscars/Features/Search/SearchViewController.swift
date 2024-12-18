@@ -37,13 +37,16 @@ class SearchViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         let collectionCellWidth = (UIScreen.main.bounds.width - CVCell.spacingWidth * (CVCell.cellColumns - 1)) / CVCell.cellColumns
         
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        // 셀 등록
+        collectionView.register(MovieCell.self, forCellWithReuseIdentifier: "MovieCell")
         collectionView.backgroundColor = .white
         
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
+        // 셀 크기, 간격
         flowLayout.scrollDirection = .vertical
-        flowLayout.itemSize = CGSize(width: collectionCellWidth, height: collectionCellWidth)
+        flowLayout.itemSize = CGSize(width: collectionCellWidth, height: collectionCellWidth + 30)
         flowLayout.minimumLineSpacing = CVCell.spacingWidth
         flowLayout.minimumInteritemSpacing = CVCell.spacingWidth
         
@@ -66,21 +69,21 @@ class SearchViewController: UIViewController {
         
         searchBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.trailing.equalTo(view)
+            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(50)
         }
         
         collectionView.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom).offset(20)
-            $0.leading.trailing.equalTo(view)
+            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
     private func fetchMovies() {
-            filteredMovies = movies
-            collectionView.reloadData()
-        }
+        filteredMovies = movies  // 처음에는 전체 영화목록
+        collectionView.reloadData()
+    }
 }
 
 //MARK: - extension
@@ -112,14 +115,22 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
         return filteredMovies.count
     }
     
+    // 셀에 담을 데이터 표시
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.reuseIdentifier, for: indexPath) as! MovieCell
-            let movie = filteredMovies[indexPath.row]
-            return cell
-        }
+        // 재사용 가능한 셀을 꺼내서 사용하는 메서드
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as! MovieCell
+        let movie = filteredMovies[indexPath.row]
+        return cell
+    }
+    
+    // 셀이 선택되었을 때 실행될 동작
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // 상세 페이지 넘어가기
+        let detailVC = MovieDetailController()
+        navigationController?.pushViewController(detailVC, animated: true)
         
-        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            collectionView.deselectItem(at: indexPath, animated: true)
-            searchBar.resignFirstResponder()
-        }
+        collectionView.deselectItem(at: indexPath, animated: true)
+        searchBar.resignFirstResponder()
+    }
 }
+
