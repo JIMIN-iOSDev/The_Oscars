@@ -30,9 +30,9 @@ class MyPageView: UIView {
     let movieTitleLabel = UILabel()
     let movieInfoStackView = UIStackView()
     let theaterNameLabel = UILabel()
-    let ticketInfoLabel = UILabel()
+    let movieTimeTextLabel = UILabel()
+    let movieTimeLabel = UILabel()
     let ticketCountLabel = UILabel()
-    let seatLabel = UILabel()
     
     // Footer
     let oscarsLabel = UILabel()
@@ -116,19 +116,26 @@ class MyPageView: UIView {
         movieTitleLabel.textColor = .white
         
         movieInfoStackView.axis = .vertical
-        movieInfoStackView.spacing = 20
+        movieInfoStackView.spacing = 40
         movieInfoStackView.alignment = .leading
         movieInfoStackView.distribution = .fill
         
-        theaterNameLabel.text = "상영 지역"
-        ticketInfoLabel.text = "매표 정보"
-        ticketCountLabel.text = "매표 개수"
-        seatLabel.text = "좌석"
+        theaterNameLabel.text = "스파르타 상영관"
+        theaterNameLabel.font = .boldSystemFont(ofSize: 20)
+        theaterNameLabel.textColor = .white
         
-        [theaterNameLabel, ticketInfoLabel, ticketCountLabel, seatLabel].forEach {
-            $0.font = .systemFont(ofSize: 18)
-            $0.textColor = .white
-        }
+        movieTimeTextLabel.text = "상영 시간"
+        movieTimeTextLabel.font = .boldSystemFont(ofSize: 20)
+        movieTimeTextLabel.textColor = .white
+        
+        movieTimeLabel.text = "00시 00분"
+        movieTimeLabel.font = .systemFont(ofSize: 16)
+        movieTimeLabel.textColor = .white
+        
+        ticketCountLabel.text = "매표 개수"
+        ticketCountLabel.font = .boldSystemFont(ofSize: 20)
+        ticketCountLabel.textColor = .white
+        
         
         // Footer
         oscarsLabel.text = "OSCARS"
@@ -165,9 +172,9 @@ class MyPageView: UIView {
         bookingStackView.addArrangedSubview(posterImageView)
         bookingStackView.addArrangedSubview(movieInfoStackView)
         movieInfoStackView.addArrangedSubview(theaterNameLabel)
-        movieInfoStackView.addArrangedSubview(ticketInfoLabel)
+        movieInfoStackView.addArrangedSubview(movieTimeTextLabel)
+        movieInfoStackView.addArrangedSubview(movieTimeLabel)
         movieInfoStackView.addArrangedSubview(ticketCountLabel)
-        movieInfoStackView.addArrangedSubview(seatLabel)
         
         addSubview(oscarsLabel)
         addSubview(footerTextStackView)
