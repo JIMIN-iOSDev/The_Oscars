@@ -5,8 +5,8 @@
 //  Created by eden on 12/13/24.
 //
 
-import Foundation
 import UIKit
+import SnapKit
 
 class SearchViewController: UIViewController {
     //MARK: - UI Components
