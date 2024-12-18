@@ -12,7 +12,9 @@ class SearchViewController: UIViewController {
     //MARK: - UI Components
     private var movies: [Movie] = []
     private var filteredMovies: [Movie] = []
-    private var currentPage: Int = 1
+    
+    var currentPageNowPlaying = 1
+    var currentPageUpcoming = 1
     private var isLoading = false
     
     // searchBar
@@ -86,26 +88,45 @@ class SearchViewController: UIViewController {
         guard !isLoading else { return } // 이미 로딩 중이면 추가 요청하지 않도록 처리
         isLoading = true
         
-        NetworkManager.shared.fetchMovies(category: .popular, page: currentPage) { [weak self] result in
-            guard let self = self else { return }
-            
+        let dispatchGroup = DispatchGroup()
+        
+        var nowPlayingMovies: [Movie] = []
+        var upcomingMovies: [Movie] = []
+        
+        // Fetch now playing movies
+        dispatchGroup.enter()
+        NetworkManager.shared.fetchMovies(category: .nowPlaying, page: currentPageNowPlaying) { result in
             switch result {
             case .success(let movieResponse):
-                // 페이지가 더 있으면 페이지 증가
-                self.currentPage += 1
-                
-                // 기존 데이터에 새로운 데이터를 추가
-                self.movies.append(contentsOf: movieResponse.results)
-                self.filteredMovies = self.movies // 필터된 영화 목록을 갱신
-                
-                DispatchQueue.main.async {
-                    print("Fetched movies: \(self.movies.count)")
-                    self.collectionView.reloadData()
-                }
-                
+                nowPlayingMovies = movieResponse.results
+                self.currentPageNowPlaying += 1
             case .failure(let error):
-                print("Error fetching movies: \(error)")
+                print("Error fetching now playing movies: \(error)")
             }
+            dispatchGroup.leave()
+        }
+        
+        // Fetch upcoming movies
+        dispatchGroup.enter()
+        NetworkManager.shared.fetchMovies(category: .upcoming, page: currentPageUpcoming) { result in
+            switch result {
+            case .success(let movieResponse):
+                upcomingMovies = movieResponse.results
+                self.currentPageUpcoming += 1
+            case .failure(let error):
+                print("Error fetching upcoming movies: \(error)")
+            }
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            
+            let allMovies = nowPlayingMovies + upcomingMovies
+            
+            self.movies.append(contentsOf: allMovies)
+            self.filteredMovies = self.movies
+            
+            self.collectionView.reloadData()
             
             self.isLoading = false
         }
