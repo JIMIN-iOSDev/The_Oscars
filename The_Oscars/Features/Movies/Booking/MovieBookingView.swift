@@ -81,7 +81,7 @@ class MovieBookingView: UIView {
     
     let bookButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("결제하기", for: .normal)
+        button.setTitle("예매하기", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         button.backgroundColor = .systemYellow
         button.setTitleColor(.white, for: .normal)
