@@ -13,6 +13,19 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
+        fetchMovies()
+    }
+    
+    //TODO: -movie data fetch
+    private func fetchMovies() {
+//        NetworkManager.shared.fetchMovies(category: .popular, page: 1) { result in
+//            switch result {
+//            case .success(let movieResponse):
+//                print("성공: \(movieResponse)")
+//            case .failure(let error):
+//                print("에러 발생: \(error.localizedDescription)")
+//            }
+//        }
     }
     
     private func setupTabBar() {
