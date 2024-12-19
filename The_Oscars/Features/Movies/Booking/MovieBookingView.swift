@@ -15,7 +15,7 @@ class MovieBookingView: UIView {
         let label = UILabel()
         label.text = "예매하기"
         label.font = UIFont.boldSystemFont(ofSize: 24)
-        label.textColor = .systemYellow
+        label.textColor = UIColor(red: 237/255, green: 206/255, blue: 85/255, alpha: 1.0)
         return label
     }()
     
@@ -61,7 +61,7 @@ class MovieBookingView: UIView {
         let button = UIButton(type: .system)
         button.setTitle("-", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)
-        button.setTitleColor(.systemYellow, for: .normal)
+        button.setTitleColor(UIColor(red: 237/255, green: 206/255, blue: 85/255, alpha: 1.0), for: .normal)
         return button
     }()
     
@@ -69,7 +69,7 @@ class MovieBookingView: UIView {
         let button = UIButton(type: .system)
         button.setTitle("+", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)
-        button.setTitleColor(.systemYellow, for: .normal)
+        button.setTitleColor(UIColor(red: 237/255, green: 206/255, blue: 85/255, alpha: 1.0), for: .normal)
         return button
     }()
     
@@ -92,7 +92,7 @@ class MovieBookingView: UIView {
         let button = UIButton(type: .system)
         button.setTitle("결제하기", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        button.backgroundColor = .systemYellow
+        button.backgroundColor = UIColor(red: 237/255, green: 206/255, blue: 85/255, alpha: 1.0)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
         return button

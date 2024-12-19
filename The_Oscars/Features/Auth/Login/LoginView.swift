@@ -36,7 +36,7 @@ class LoginView: UIView {
         // 타이틀 설정
         titleLabel.text = "OSCARS"
         titleLabel.font = UIFont.boldSystemFont(ofSize: 36)
-        titleLabel.textColor = UIColor.systemYellow
+        titleLabel.textColor = UIColor(red: 237/255, green: 206/255, blue: 85/255, alpha: 1.0)
         titleLabel.textAlignment = .center
         
         // 아이디 입력 필드 설정
@@ -49,7 +49,7 @@ class LoginView: UIView {
         // 로그인 버튼 설정
         loginButton.setTitle("로그인", for: .normal)
         loginButton.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        loginButton.backgroundColor = UIColor.systemYellow
+        loginButton.backgroundColor = UIColor(red: 237/255, green: 206/255, blue: 85/255, alpha: 1.0)
         loginButton.setTitleColor(.black, for: .normal)
         loginButton.layer.cornerRadius = 5
         
