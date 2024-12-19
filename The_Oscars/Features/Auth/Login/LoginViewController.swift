@@ -80,7 +80,7 @@ class LoginViewController: UIViewController {
     
     @objc private func signUpButtonTapped() {
         let signUpVC = SignupViewController()
-        present(signUpVC, animated: true, completion: nil)
+        navigationController?.pushViewController(signUpVC, animated: true)
     }
     
     @objc private func findIdPasswordButtonTapped() {
