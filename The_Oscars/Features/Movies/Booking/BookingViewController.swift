@@ -78,18 +78,17 @@ class MovieBookingViewController: UIViewController {
     
     @objc private func bookMovie() {
         guard let movieName = bookingView.movieNameLabel.text,
-              let date = bookingView.dateButton.title(for: .normal),
-              let time = bookingView.timeButton.title(for: .normal) else {
-            showAlert(message: "모든 정보를 입력해주세요.")
+              let date = bookingView.dateButton.title(for: .normal), // 날짜 가져오기
+              let time = bookingView.timeButton.title(for: .normal), // 시간 가져오기
+              !date.isEmpty, !time.isEmpty else { // 날짜와 시간이 선택되었는지 확인
+            showAlert(message: "날짜와 시간을 선택해주세요!")
             return
         }
         
-        let formattedDateTime = "\(date) \(time)" // 날짜와 시간을 합침
-        let totalPrice = peopleCount * 5000
+        let totalPrice = peopleCount * 5000 // 총 가격 계산
+        let booking = Booking(movieName: movieName, date: date, time: time, peopleCount: peopleCount, totalPrice: totalPrice) // Booking 객체 생성
         
-        let booking = Booking(movieName: movieName, date: formattedDateTime, peopleCount: peopleCount, totalPrice: totalPrice)
-        
-        UserDefaultsManager.shared.saveBooking(booking)
+        UserDefaultsManager.shared.saveBooking(booking) // UserDefaults에 저장
         print("예매 정보가 저장되었습니다: \(booking)")
         
         // 네비게이션 스택에서 MovieListViewController로 이동
