@@ -4,13 +4,8 @@
 //
 //  Created by YangJeongMu on 12/18/24.
 //
-
-
-// 바로 예매페이지 누르면 예매 페이지 누르기
-// 영화 세부 페이지면 상세페이지 넘어가기
-// 영화 포스트 누르면 세부 페이지 넘어가기
-
 import UIKit
+import SnapKit
 
 // MARK: - MovieCellDelegate
 protocol MovieCellDelegate: AnyObject {
@@ -38,9 +33,20 @@ class MovieCell: UICollectionViewCell {
     private let bookingButton: UIButton = {
         let button = UIButton()
         button.setTitle("바로예매", for: .normal)
-        button.backgroundColor = .systemBlue
-        button.layer.cornerRadius = 8
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        // 텍스트 색상을 흰색으로 설정
+        button.setTitleColor(.white, for: .normal)
+        // 배경색을 골드 컬러로 설정
+        button.backgroundColor = UIColor(red: 0.929, green: 0.808, blue: 0.333, alpha: 1)
+        // 테두리 설정
+        button.layer.cornerRadius = 10
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor(red: 0.929, green: 0.808, blue: 0.333, alpha: 1).cgColor
+        // 폰트 설정 (Inter-Bold 폰트가 없을 경우를 대비해 systemFont도 설정)
+        if let customFont = UIFont(name: "Inter-Bold", size: 11) {
+            button.titleLabel?.font = customFont
+        } else {
+            button.titleLabel?.font = .systemFont(ofSize: 11, weight: .bold)
+        }
         return button
     }()
     
@@ -55,22 +61,22 @@ class MovieCell: UICollectionViewCell {
     private let infoStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.distribution = .equalSpacing
+        stack.distribution = .fill
         stack.alignment = .center
-        stack.spacing = 8
+        stack.spacing = 4
         return stack
     }()
     
     private let viewerCountLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 12)
+        label.font = .systemFont(ofSize: 13)
         label.textColor = .gray
         return label
     }()
     
     private let heartButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "heart"), for: .normal)
+        button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         button.tintColor = .red
         return button
     }()
@@ -106,26 +112,28 @@ class MovieCell: UICollectionViewCell {
             infoStackView.addArrangedSubview($0)
         }
         
-        NSLayoutConstraint.activate([
-            posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: 1.4),
-            
-            bookingButton.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 8),
-            bookingButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            bookingButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            bookingButton.heightAnchor.constraint(equalToConstant: 30),
-            
-            titleLabel.topAnchor.constraint(equalTo: bookingButton.bottomAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            
-            infoStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
-            infoStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            infoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            infoStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
-        ])
+        
+        posterImageView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(posterImageView.snp.width).multipliedBy(1.4)
+        }
+        
+        bookingButton.snp.makeConstraints { make in
+            make.top.equalTo(posterImageView.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(30)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(bookingButton.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview()
+        }
+        
+        infoStackView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(4)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-8)
+        }
         
     }
     
@@ -177,7 +185,6 @@ class MovieCell: UICollectionViewCell {
         ratingLabel.text = nil
         viewerCountLabel.text = nil
     }
-    
     
     private func loadImage(from urlString: String) {
         guard let url = URL(string: urlString) else { return }

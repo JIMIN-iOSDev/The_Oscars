@@ -79,31 +79,41 @@ class MovieBookingViewController: UIViewController {
     @objc private func bookMovie() {
         guard let movieName = bookingView.movieNameLabel.text,
               let date = bookingView.dateButton.title(for: .normal),
-              let time = bookingView.timeButton.title(for: .normal) else {
-            showAlert(message: "모든 정보를 입력해주세요.")
+              let time = bookingView.timeButton.title(for: .normal),
+              !date.isEmpty, !time.isEmpty else {
+            showAlert(message: "날짜와 시간을 선택해주세요!")
             return
         }
-        
-        let formattedDateTime = "\(date) \(time)" // 날짜와 시간을 합침
+
         let totalPrice = peopleCount * 5000
-        
-        let booking = Booking(movieName: movieName, date: formattedDateTime, peopleCount: peopleCount, totalPrice: totalPrice)
-        
+        let booking = Booking(movieName: movieName, date: date, time: time, peopleCount: peopleCount, totalPrice: totalPrice)
+
         UserDefaultsManager.shared.saveBooking(booking)
         print("예매 정보가 저장되었습니다: \(booking)")
-        
-        // 네비게이션 스택에서 MovieListViewController로 이동
-        if let movieListVC = navigationController?.viewControllers.first(where: { $0 is MovieListViewController }) {
-            navigationController?.popToViewController(movieListVC, animated: true)
-        } else {
-            print("MovieListViewController가 네비게이션 스택에 없습니다.")
-        }
+
+        // TabBarViewController로 이동
+        navigateToTabBar()
     }
+
+    // TabBarViewController로 이동하는 메서드
+    private func navigateToTabBar() {
+        let tabBarVC = TabBarViewController()
+        // 네비게이션 스택 초기화 및 TabBarViewController 설정
+            if let navigationController = navigationController {
+                navigationController.setViewControllers([tabBarVC], animated: true)
+            } else {
+                // 네비게이션 컨트롤러가 없을 경우 모달로 표시
+                tabBarVC.modalPresentationStyle = .fullScreen
+                present(tabBarVC, animated: true, completion: nil)
+            }
+        }
     
+    // Alert 메시지 표시 메서드
     private func showAlert(message: String) {
         let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default))
-        present(alert, animated: true)
+        let confirmAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alert.addAction(confirmAction)
+        present(alert, animated: true, completion: nil)
     }
     
     //MARK: - Date and Time Pickers
@@ -119,16 +129,43 @@ class MovieBookingViewController: UIViewController {
         datePicker.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 150)
         datePickerVC.view.addSubview(datePicker)
         
+        // 확인 버튼 컨테이너 뷰
+        let confirmContainerView = UIView()
+        confirmContainerView.backgroundColor = .white
+        confirmContainerView.translatesAutoresizingMaskIntoConstraints = false
+
+        // 확인 버튼
         let confirmButton = UIButton(type: .system)
         confirmButton.setTitle("확인", for: .normal)
-        confirmButton.frame = CGRect(x: 0, y: 150, width: view.frame.width, height: 50)
+        confirmButton.setTitleColor(.blue, for: .normal) // 텍스트 색상
+        confirmButton.translatesAutoresizingMaskIntoConstraints = false
         confirmButton.addAction(UIAction(handler: { _ in
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy/MM/dd"
             self.bookingView.dateButton.setTitle(formatter.string(from: datePicker.date), for: .normal)
             datePickerVC.dismiss(animated: true, completion: nil)
         }), for: .touchUpInside)
-        datePickerVC.view.addSubview(confirmButton)
+
+        // 버튼을 컨테이너 뷰에 추가
+        confirmContainerView.addSubview(confirmButton)
+
+        // 컨테이너 뷰와 버튼을 datePickerVC에 추가
+        datePickerVC.view.addSubview(confirmContainerView)
+
+        // AutoLayout 설정
+        NSLayoutConstraint.activate([
+            // datePicker의 아래에 confirmContainerView 배치
+            confirmContainerView.topAnchor.constraint(equalTo: datePicker.bottomAnchor),
+            confirmContainerView.leadingAnchor.constraint(equalTo: datePickerVC.view.leadingAnchor),
+            confirmContainerView.trailingAnchor.constraint(equalTo: datePickerVC.view.trailingAnchor),
+            confirmContainerView.heightAnchor.constraint(equalToConstant: 80),
+            
+            // confirmButton을 컨테이너에 꽉 채움
+            confirmButton.topAnchor.constraint(equalTo: confirmContainerView.topAnchor),
+            confirmButton.bottomAnchor.constraint(equalTo: confirmContainerView.bottomAnchor),
+            confirmButton.leadingAnchor.constraint(equalTo: confirmContainerView.leadingAnchor),
+            confirmButton.trailingAnchor.constraint(equalTo: confirmContainerView.trailingAnchor)
+        ])
         
         // 모달 창에 커스텀 높이 적용
         if let sheet = datePickerVC.sheetPresentationController {
@@ -140,34 +177,66 @@ class MovieBookingViewController: UIViewController {
         presentWithWhiteBackground(datePickerVC, animated: true)
     }
     
-    @objc private func showTimePicker() { //시간 데이터
+    @objc private func showTimePicker() {
         let timePickerVC = UIViewController()
         timePickerVC.modalPresentationStyle = .pageSheet
-        timePickerVC.preferredContentSize = CGSize(width: view.frame.width, height: 200)
+        timePickerVC.preferredContentSize = CGSize(width: view.frame.width, height: 250)
         
+        // 시간 선택용 UIDatePicker
         let timePicker = UIDatePicker()
         timePicker.datePickerMode = .time
         timePicker.preferredDatePickerStyle = .wheels
         timePicker.locale = Locale(identifier: "ko_KR")
-        timePicker.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 150)
+        timePicker.translatesAutoresizingMaskIntoConstraints = false
         timePickerVC.view.addSubview(timePicker)
         
+        // 확인 버튼 컨테이너 뷰
+        let confirmContainerView = UIView()
+        confirmContainerView.backgroundColor = .white
+        confirmContainerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // 확인 버튼
         let confirmButton = UIButton(type: .system)
         confirmButton.setTitle("확인", for: .normal)
-        confirmButton.frame = CGRect(x: 0, y: 150, width: view.frame.width, height: 50)
+        confirmButton.setTitleColor(.blue, for: .normal) // 텍스트 색상
+        confirmButton.translatesAutoresizingMaskIntoConstraints = false
         confirmButton.addAction(UIAction(handler: { _ in
             let formatter = DateFormatter()
             formatter.dateFormat = "h:mm a"
             self.bookingView.timeButton.setTitle(formatter.string(from: timePicker.date), for: .normal)
             timePickerVC.dismiss(animated: true, completion: nil)
         }), for: .touchUpInside)
-        timePickerVC.view.addSubview(confirmButton)
         
-        // 모달 창에 커스텀 높이 적용
+        // 버튼을 컨테이너 뷰에 추가
+        confirmContainerView.addSubview(confirmButton)
+        timePickerVC.view.addSubview(confirmContainerView)
+        
+        // AutoLayout 설정
+        NSLayoutConstraint.activate([
+            // timePicker의 상단 배치
+            timePicker.topAnchor.constraint(equalTo: timePickerVC.view.topAnchor),
+            timePicker.leadingAnchor.constraint(equalTo: timePickerVC.view.leadingAnchor),
+            timePicker.trailingAnchor.constraint(equalTo: timePickerVC.view.trailingAnchor),
+            timePicker.heightAnchor.constraint(equalToConstant: 150),
+            
+            // timePicker 아래에 confirmContainerView 배치
+            confirmContainerView.topAnchor.constraint(equalTo: timePicker.bottomAnchor),
+            confirmContainerView.leadingAnchor.constraint(equalTo: timePickerVC.view.leadingAnchor),
+            confirmContainerView.trailingAnchor.constraint(equalTo: timePickerVC.view.trailingAnchor),
+            confirmContainerView.heightAnchor.constraint(equalToConstant: 80),
+            
+            // confirmButton을 컨테이너에 꽉 채움
+            confirmButton.topAnchor.constraint(equalTo: confirmContainerView.topAnchor),
+            confirmButton.bottomAnchor.constraint(equalTo: confirmContainerView.bottomAnchor),
+            confirmButton.leadingAnchor.constraint(equalTo: confirmContainerView.leadingAnchor),
+            confirmButton.trailingAnchor.constraint(equalTo: confirmContainerView.trailingAnchor)
+        ])
+        
+        // 모달 설정
         if let sheet = timePickerVC.sheetPresentationController {
-            sheet.detents = [.custom { _ in 200 }] // 전체 모달 창 높이를 200pt로 고정
-            sheet.prefersGrabberVisible = true
-            sheet.preferredCornerRadius = 20
+            sheet.detents = [.custom { _ in 200 }] // 높이 250으로 고정
+            sheet.prefersGrabberVisible = true // 상단 핸들 표시
+            sheet.preferredCornerRadius = 20   // 상단 라운드 처리
         }
         
         presentWithWhiteBackground(timePickerVC, animated: true)

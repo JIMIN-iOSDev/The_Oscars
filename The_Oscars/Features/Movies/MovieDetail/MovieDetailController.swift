@@ -70,7 +70,7 @@ class MovieDetailController: UIViewController {
         button.layer.borderColor = UIColor.systemYellow.cgColor
         button.layer.borderWidth = 2
         button.layer.cornerRadius = 10
-        //        button.addTarget(self, action: #selector(bookingButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(bookingButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -87,12 +87,13 @@ class MovieDetailController: UIViewController {
         loadMovieDetails()
     }
     
-    // 예매 페이지와 모달 연결
-    //    @objc private func bookingButtonTapped() {
-    //        let bookingVC = BookingViewController()
-    //        bookingVC.modalPresentationStyle = .fullScreen
-    //        present(bookingVC, animated: true, completion: nil)
-    //    }
+    // MARK: - 예매 버튼 액션
+        @objc private func bookingButtonTapped() {
+            let bookingVC = MovieBookingViewController() // 예매 페이지 인스턴스 생성
+            bookingVC.modalPresentationStyle = .pageSheet // 모달 스타일 설정
+            bookingVC.movie = movie // 예매 페이지에 영화 정보 전달
+            present(bookingVC, animated: true, completion: nil) // 모달 띄우기
+        }
     
     private func loadMovieDetails() {
         guard let movie = movie else { return }
