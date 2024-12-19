@@ -20,6 +20,18 @@ class CustomTextField: UIView, UITextFieldDelegate {
         set { textField.text = newValue }
     }
     
+    func setErrorMessage(_ message: String?) {
+        if let message = message {
+            errorLabel.text = message
+            errorLabel.isHidden = false
+            bottomBorder.backgroundColor = .red
+        } else {
+            errorLabel.text = nil
+            errorLabel.isHidden = true
+            bottomBorder.backgroundColor = .gray
+        }
+    }
+    
     // MARK: - 초기화
     init(title: String, placeholder: String) {
         super.init(frame: .zero)
@@ -44,7 +56,6 @@ class CustomTextField: UIView, UITextFieldDelegate {
         
         bottomBorder.backgroundColor = .gray
         
-        errorLabel.text = "에러에러에러에러에러엘"
         errorLabel.font = UIFont.systemFont(ofSize: 8)
         errorLabel.textColor = .red
         errorLabel.isHidden = true
