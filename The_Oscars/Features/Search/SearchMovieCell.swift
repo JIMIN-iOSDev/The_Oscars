@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MovieCell: UICollectionViewCell {
+class SearchMovieCell: UICollectionViewCell {
     
     static let reuseIdentifier = "MovieCell"
     
