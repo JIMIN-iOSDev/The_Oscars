@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 class CustomTextField: UIView, UITextFieldDelegate {
+    var fieldType: FieldType?
     // MARK: - UI Components
     private let titleLabel = UILabel()
     private let textField = UITextField()
@@ -21,9 +22,9 @@ class CustomTextField: UIView, UITextFieldDelegate {
     }
     
     // MARK: - 초기화
-    init(title: String, placeholder: String) {
+    init(title: String, placeholder: String, isSecure: Bool = false) {
         super.init(frame: .zero)
-        setupUI(title: title, placeholder: placeholder)
+        setupUI(title: title, placeholder: placeholder, isSecure: isSecure)
         textField.delegate = self
     }
     
@@ -32,7 +33,7 @@ class CustomTextField: UIView, UITextFieldDelegate {
     }
     
     // MARK: - UI 설정
-    private func setupUI(title: String, placeholder: String) {
+    private func setupUI(title: String, placeholder: String, isSecure: Bool) {
         titleLabel.text = title
         titleLabel.font = UIFont.systemFont(ofSize: 12)
         titleLabel.textColor = .black
@@ -41,10 +42,10 @@ class CustomTextField: UIView, UITextFieldDelegate {
         textField.borderStyle = .none
         textField.font = UIFont.systemFont(ofSize: 12)
         textField.textColor = .black
+        textField.isSecureTextEntry = isSecure
         
         bottomBorder.backgroundColor = .gray
         
-        errorLabel.text = "에러에러에러에러에러엘"
         errorLabel.font = UIFont.systemFont(ofSize: 8)
         errorLabel.textColor = .red
         errorLabel.isHidden = true
@@ -83,12 +84,38 @@ class CustomTextField: UIView, UITextFieldDelegate {
         }
     }
     
+    func setErrorMessage(_ message: String?) {
+        if let message = message {
+            errorLabel.text = message
+            errorLabel.isHidden = false
+            bottomBorder.backgroundColor = .red
+        } else {
+            errorLabel.text = nil
+            errorLabel.isHidden = true
+            bottomBorder.backgroundColor = .gray
+        }
+    }
+    
     // MARK: - UITextFieldDelegate Methods
     func textFieldDidBeginEditing(_ textField: UITextField) {
         bottomBorder.backgroundColor = UIColor(red: 237/255, green: 206/255, blue: 85/255, alpha: 1.0)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        bottomBorder.backgroundColor = .gray
+        guard let fieldType = self.fieldType else { return }
+        let validator = Validator()
+        
+        let referenceText = fieldType == .passwordConfirm ?
+        (self.superview as? SignupView)?.passwordField.text : nil
+        
+        let (isValid, errorMessage) = validator.validateFields(fieldType: fieldType, text: textField.text, referenceText: referenceText)
+        
+        if isValid {
+            setErrorMessage(nil)
+            bottomBorder.backgroundColor = .gray
+        } else {
+            setErrorMessage(errorMessage)
+            bottomBorder.backgroundColor = .red
+        }
     }
 }

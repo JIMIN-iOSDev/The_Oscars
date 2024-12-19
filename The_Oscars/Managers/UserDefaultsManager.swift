@@ -18,16 +18,16 @@ class UserDefaultsManager {
     
     // 로그인
     func loginUser(id: String, password: String) -> Bool {
-        if let data = defaults.data(forKey: userKey),
-           let users = try? JSONDecoder().decode([UserModel].self, from: data),
-           let user = users.first(where: { $0.id == id && $0.password == password }) {
-            
-            if let encodedUser = try? JSONEncoder().encode(user) {
-                defaults.set(encodedUser, forKey: loggedInUserKey)
-            }
-            return true
+        guard
+            let data = defaults.data(forKey: userKey),
+            let users = try? JSONDecoder().decode([UserModel].self, from: data),
+            let user = users.first(where: { $0.id == id && $0.password == password }),
+            let encodedUser = try? JSONEncoder().encode(user)
+        else {
+            return false
         }
-        return false
+        defaults.set(encodedUser, forKey: loggedInUserKey)
+        return true
     }
     
     // 회원가입
@@ -40,29 +40,33 @@ class UserDefaultsManager {
         }
         
         users.append(user)
-        if let encoded = try? JSONEncoder().encode(users) {
-            defaults.set(encoded, forKey: userKey)
-            return true
+        guard let encoded = try? JSONEncoder().encode(users) else {
+            return false
         }
-        return false
+        defaults.set(encoded, forKey: userKey)
+        return true
     }
     
     // 아이디 중복 체크
     func isUserIdDuplicated(_ id: String) -> Bool {
-        if let data = defaults.data(forKey: userKey),
-           let users = try? JSONDecoder().decode([UserModel].self, from: data) {
-            return users.contains(where: { $0.id == id })
+        guard
+            let data = defaults.data(forKey: userKey),
+            let users = try? JSONDecoder().decode([UserModel].self, from: data)
+        else {
+            return false
         }
-        return false
+        return users.contains(where: { $0.id == id })
     }
     
     // 마이페이지
     func getLoggedInUser() -> UserModel? {
-        if let data = defaults.data(forKey: loggedInUserKey),
-           let user = try? JSONDecoder().decode(UserModel.self, from: data) {
-            return user
+        guard
+            let data = defaults.data(forKey: loggedInUserKey),
+            let user = try? JSONDecoder().decode(UserModel.self, from: data)
+        else {
+            return nil
         }
-        return nil
+        return user
     }
     
     // 로그아웃
