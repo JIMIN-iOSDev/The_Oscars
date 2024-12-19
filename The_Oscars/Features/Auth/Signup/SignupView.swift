@@ -28,8 +28,8 @@ class SignupView: UIView {
         button.layer.cornerRadius = 7
         return button
     }()
-    let passwordField = CustomTextField(title: "비밀번호", placeholder: "비밀번호를 입력해 주세요.")
-    let passwordConfirmField = CustomTextField(title: "비밀번호 확인", placeholder: "비밀번호를 다시 입력해 주세요.")
+    let passwordField = CustomTextField(title: "비밀번호", placeholder: "비밀번호를 입력해 주세요.", isSecure: true)
+    let passwordConfirmField = CustomTextField(title: "비밀번호 확인", placeholder: "비밀번호를 다시 입력해 주세요.", isSecure: true)
     let emailField = CustomTextField(title: "이메일 주소", placeholder: "이메일 주소를 입력해 주세요.")
     let nameField = CustomTextField(title: "이름", placeholder: "OSCARS에서 사용할 이름을 입력해 주세요.")
     let phoneField = CustomTextField(title: "전화번호", placeholder: "번호를 '-' 제외하고 입력해 주세요.")

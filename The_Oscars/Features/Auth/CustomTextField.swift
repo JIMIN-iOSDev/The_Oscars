@@ -22,9 +22,9 @@ class CustomTextField: UIView, UITextFieldDelegate {
     }
     
     // MARK: - 초기화
-    init(title: String, placeholder: String) {
+    init(title: String, placeholder: String, isSecure: Bool = false) {
         super.init(frame: .zero)
-        setupUI(title: title, placeholder: placeholder)
+        setupUI(title: title, placeholder: placeholder, isSecure: isSecure)
         textField.delegate = self
     }
     
@@ -33,7 +33,7 @@ class CustomTextField: UIView, UITextFieldDelegate {
     }
     
     // MARK: - UI 설정
-    private func setupUI(title: String, placeholder: String) {
+    private func setupUI(title: String, placeholder: String, isSecure: Bool) {
         titleLabel.text = title
         titleLabel.font = UIFont.systemFont(ofSize: 12)
         titleLabel.textColor = .black
@@ -42,6 +42,7 @@ class CustomTextField: UIView, UITextFieldDelegate {
         textField.borderStyle = .none
         textField.font = UIFont.systemFont(ofSize: 12)
         textField.textColor = .black
+        textField.isSecureTextEntry = isSecure
         
         bottomBorder.backgroundColor = .gray
         
@@ -105,7 +106,7 @@ class CustomTextField: UIView, UITextFieldDelegate {
         let validator = Validator()
         
         let referenceText = fieldType == .passwordConfirm ?
-            (self.superview as? SignupView)?.passwordField.text : nil
+        (self.superview as? SignupView)?.passwordField.text : nil
         
         let (isValid, errorMessage) = validator.validateFields(fieldType: fieldType, text: textField.text, referenceText: referenceText)
         

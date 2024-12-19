@@ -11,7 +11,7 @@ import SnapKit
 class SignupViewController: UIViewController {
     private let signupView = SignupView()
     private let validator = Validator()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -58,7 +58,8 @@ class SignupViewController: UIViewController {
     @objc
     private func signup() {
         var isValid = true
-
+        
+        // ID 유효성 검사
         let idValidation = validator.validateFields(fieldType: .id, text: signupView.idField.text)
         if !idValidation.0 {
             signupView.idField.setErrorMessage(idValidation.1)
@@ -66,7 +67,8 @@ class SignupViewController: UIViewController {
         } else {
             signupView.idField.setErrorMessage(nil)
         }
-
+        
+        // 비밀번호 유효성 검사
         let passwordValidation = validator.validateFields(fieldType: .password, text: signupView.passwordField.text)
         if !passwordValidation.0 {
             signupView.passwordField.setErrorMessage(passwordValidation.1)
@@ -74,7 +76,8 @@ class SignupViewController: UIViewController {
         } else {
             signupView.passwordField.setErrorMessage(nil)
         }
-
+        
+        // 비밀번호 확인 유효성 검사
         let passwordConfirmValidation = validator.validateFields(
             fieldType: .passwordConfirm,
             text: signupView.passwordConfirmField.text,
@@ -86,7 +89,8 @@ class SignupViewController: UIViewController {
         } else {
             signupView.passwordConfirmField.setErrorMessage(nil)
         }
-
+        
+        // 이메일 유효성 검사
         let emailValidation = validator.validateFields(fieldType: .email, text: signupView.emailField.text)
         if !emailValidation.0 {
             signupView.emailField.setErrorMessage(emailValidation.1)
@@ -94,7 +98,8 @@ class SignupViewController: UIViewController {
         } else {
             signupView.emailField.setErrorMessage(nil)
         }
-
+        
+        // 이름 유효성 검사
         let nameValidation = validator.validateFields(fieldType: .name, text: signupView.nameField.text)
         if !nameValidation.0 {
             signupView.nameField.setErrorMessage(nameValidation.1)
@@ -102,7 +107,8 @@ class SignupViewController: UIViewController {
         } else {
             signupView.nameField.setErrorMessage(nil)
         }
-
+        
+        // 전화번호 유효성 검사
         let phoneValidation = validator.validateFields(fieldType: .phoneNumber, text: signupView.phoneField.text)
         if !phoneValidation.0 {
             signupView.phoneField.setErrorMessage(phoneValidation.1)
@@ -110,7 +116,8 @@ class SignupViewController: UIViewController {
         } else {
             signupView.phoneField.setErrorMessage(nil)
         }
-
+        
+        // 유효성 검사 성공 시 회원가입 처리
         if isValid {
             let user = UserModel(
                 id: signupView.idField.text!,
@@ -121,7 +128,9 @@ class SignupViewController: UIViewController {
             )
             
             if UserDefaultsManager.shared.signupUser(user) {
-                showAlert(message: "회원가입 성공!")
+                showAlertWithAction(message: "회원가입 성공!") {
+                    self.navigateToLogin()
+                }
             } else {
                 showAlert(message: "회원가입 중 문제가 발생했습니다. 다시 시도해주세요.")
             }
@@ -133,6 +142,14 @@ class SignupViewController: UIViewController {
     private func showAlert(message: String) {
         let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func showAlertWithAction(message: String, action: @escaping () -> Void) {
+        let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default) { _ in
+            action()
+        })
         present(alert, animated: true, completion: nil)
     }
 }
