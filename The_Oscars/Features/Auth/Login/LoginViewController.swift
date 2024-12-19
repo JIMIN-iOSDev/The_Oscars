@@ -65,7 +65,7 @@ class LoginViewController: UIViewController {
         present(signUpVC, animated: true, completion: nil)
     }
     
-//    @objc private func findIdPasswordButtonTapped() {
-//        print("아이디/비밀번호 찾기 버튼이 눌렸습니다.")
-//    }
+    @objc private func findIdPasswordButtonTapped() {
+        print("아이디/비밀번호 찾기 버튼이 눌렸습니다.")
+    }
 }
