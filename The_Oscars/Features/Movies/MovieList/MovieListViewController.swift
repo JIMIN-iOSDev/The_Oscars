@@ -262,14 +262,24 @@ extension MovieListViewController: MovieCellDelegate {
             presentMovieDetail(for: movie)
         }
     }
+    // 예매 페이지로 이동하는 로직 구현
     func didTapBookingButton(_ cell: MovieCell) {
-        // 예매 페이지로 이동하는 로직 구현
-        // 현재는 임시로 알림만 표시
-        let alert = UIAlertController(title: "예매하기",
-                                      message: "예매 페이지로 이동합니다.",
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default))
-        present(alert, animated: true)
+        // 해당 셀의 영화 정보 가져오기
+        var selectedMovie: Movie?
+
+        if let indexPath = upcomingCollectionView.indexPath(for: cell) {
+            selectedMovie = upcomingMovies[indexPath.item]
+        } else if let indexPath = nowPlayingCollectionView.indexPath(for: cell) {
+            selectedMovie = nowPlayingMovies[indexPath.item]
+//        } else if let indexPath = popularMoviesCollectionView.indexPath(for: cell) {
+//            selectedMovie = popularMovies[idexPath.item]
+        }
+        
+        if let movie = selectedMovie {
+            let bookingVC = MovieBookingViewController()
+            bookingVC.movie = movie
+            navigationController?.pushViewController(bookingVC, animated: true)
+        }
     }
     
     private func presentMovieDetail(for movie: Movie) {
