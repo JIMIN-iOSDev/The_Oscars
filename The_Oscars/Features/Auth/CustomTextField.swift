@@ -103,7 +103,7 @@ class CustomTextField: UIView, UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         let validator = Validator()
-        let (isValid, text) = validator.validateFields(textField.text)
+//        let (isValid, text) = validator.validateFields(textField.text)
         bottomBorder.backgroundColor = .gray
     }
 }

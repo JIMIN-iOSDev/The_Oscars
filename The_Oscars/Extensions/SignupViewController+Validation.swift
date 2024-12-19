@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum fieldType {
+enum FieldType {
     case id
     case password
     case email
@@ -16,19 +16,20 @@ enum fieldType {
 }
 
 struct Validator {
-    func validateFields() -> (Bool, String) {
-        if let id = id, !isValidId(id) {
-           return (false, "아이디는 영어와 숫자 조합이어야 합니다.")
-        }
-        if let password = password, !isValidPassword(password) {
-           return (false, "비밀번호는 영어, 숫자 포함 8자 이상이어야 합니다.")
-        }
-        if let email = email, !isValidEmail(email) {
-           return (false, "아이디는 영어와 숫자 조합이어야 합니다.")
-        }
-        if let phone = id, !isValidPhone(phone) {
-           return (false, "아이디는 영어와 숫자 조합이어야 합니다.")
-        }
+    func validateField(fieldType: FieldType, value: String?) -> (Bool, String) {
+//        
+//        if let id = id, !isValidId(id) {
+//           return (false, "아이디는 영어와 숫자 조합이어야 합니다.")
+//        }
+//        if let password = password, !isValidPassword(password) {
+//           return (false, "비밀번호는 영어, 숫자 포함 8자 이상이어야 합니다.")
+//        }
+//        if let email = email, !isValidEmail(email) {
+//           return (false, "아이디는 영어와 숫자 조합이어야 합니다.")
+//        }
+//        if let phone = id, !isValidPhone(phone) {
+//           return (false, "아이디는 영어와 숫자 조합이어야 합니다.")
+//        }
         return (true, "123")
     }
     
