@@ -5,7 +5,6 @@
 //  Created by eden on 12/15/24.
 //
 
-import Foundation
 import UIKit
 import SnapKit
 
@@ -52,9 +51,8 @@ class SignupViewController: UIViewController {
     
     @objc
     private func navigateToLogin() {
-        // TODO: - LoginViewController merge시 주석 풀 예정
-        // let loginViewController = LoginViewController()
-        // navigationController?.pushViewController(loginViewController, animated: true)
+        let loginViewController = LoginViewController()
+        navigationController?.pushViewController(loginViewController, animated: true)
     }
     
     @objc

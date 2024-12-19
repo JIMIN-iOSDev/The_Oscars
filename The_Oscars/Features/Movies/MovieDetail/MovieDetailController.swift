@@ -70,7 +70,7 @@ class MovieDetailController: UIViewController {
         button.layer.borderColor = UIColor.systemYellow.cgColor
         button.layer.borderWidth = 2
         button.layer.cornerRadius = 10
-//        button.addTarget(self, action: #selector(bookingButtonTapped), for: .touchUpInside)
+        //        button.addTarget(self, action: #selector(bookingButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -80,7 +80,7 @@ class MovieDetailController: UIViewController {
         
         self.view.backgroundColor = .white
         navigationItem.setHidesBackButton(true, animated: false)
-
+        
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         configureUI()
@@ -88,11 +88,11 @@ class MovieDetailController: UIViewController {
     }
     
     // 예매 페이지와 모달 연결
-//    @objc private func bookingButtonTapped() {
-//        let bookingVC = BookingViewController()
-//        bookingVC.modalPresentationStyle = .fullScreen
-//        present(bookingVC, animated: true, completion: nil)
-//    }
+    //    @objc private func bookingButtonTapped() {
+    //        let bookingVC = BookingViewController()
+    //        bookingVC.modalPresentationStyle = .fullScreen
+    //        present(bookingVC, animated: true, completion: nil)
+    //    }
     
     private func loadMovieDetails() {
         guard let movie = movie else { return }
@@ -101,10 +101,10 @@ class MovieDetailController: UIViewController {
         dateLabel.text = "개봉일 \(movie.releaseDate ?? "미정")"
         
         if let voteAverage = movie.voteAverage {
-                gradeLabel.text = "❤️\(String(format: "%.1f", voteAverage))"
-            } else {
-                gradeLabel.text = "❤️0.0"
-            }
+            gradeLabel.text = "❤️\(String(format: "%.1f", voteAverage))"
+        } else {
+            gradeLabel.text = "❤️0.0"
+        }
         explanationLabel.text = movie.overview
         
         // 포스터 이미지 로드

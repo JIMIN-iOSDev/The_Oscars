@@ -5,7 +5,6 @@
 //  Created by eden on 12/13/24.
 //
 
-import Foundation
 import UIKit
 import SnapKit
 
@@ -82,7 +81,7 @@ class MovieListViewController: UIViewController {
         loadMovieData()
         setupUI()
     }
-
+    
     // 로딩 데이터
     private func loadMovieData() {
         loadUpcomingMovies()
@@ -103,7 +102,7 @@ class MovieListViewController: UIViewController {
             }
         }
     }
-
+    
     private func loadNowPlayingMovies() {
         networkManager.fetchMovies(category: .nowPlaying) { [weak self] (result: Result<MovieResponse, Error>) in
             switch result {
@@ -117,7 +116,7 @@ class MovieListViewController: UIViewController {
             }
         }
     }
-
+    
     private func loadPopularMovies() {
         networkManager.fetchMovies(category: .popular) { [weak self] (result: Result<MovieResponse, Error>) in
             switch result {
@@ -131,7 +130,7 @@ class MovieListViewController: UIViewController {
             }
         }
     }
-
+    
     
     // MARK: - Setup
     private func setupUI() {
@@ -148,7 +147,7 @@ class MovieListViewController: UIViewController {
         // 뷰 계층 구조에 추가
         view.addSubview(scrollView)
         scrollView.addSubview(stackView)
-
+        
         
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -197,7 +196,7 @@ extension MovieListViewController: UICollectionViewDelegate, UICollectionViewDat
             return UICollectionViewCell()
         }
         
- 
+        
         cell.configure(with: movie)
         
         return cell
@@ -205,50 +204,50 @@ extension MovieListViewController: UICollectionViewDelegate, UICollectionViewDat
     
     
     // MARK: - Collection View Setup
-     private func setupCollectionView() {
-         // 각 섹션의 헤더 레이블 생성
-         let upcomingHeaderView = createHeaderView(title: "Upcoming Movies")
-         let nowPlayingHeaderView = createHeaderView(title: "Now Playing")
-         let popularHeaderView = createHeaderView(title: "Popular Movies")
-         
-         // 스택뷰에 헤더와 컬렉션뷰 추가
-         let upcomingStack = createSectionStack(headerView: upcomingHeaderView, collectionView: upcomingCollectionView)
-         let nowPlayingStack = createSectionStack(headerView: nowPlayingHeaderView, collectionView: nowPlayingCollectionView)
-         let popularStack = createSectionStack(headerView: popularHeaderView, collectionView: popularCollectionView)
-         
-         stackView.addArrangedSubview(upcomingStack)
-         stackView.addArrangedSubview(nowPlayingStack)
-//         stackView.addArrangedSubview(popularStack)
-     }
-     
-     private func createHeaderView(title: String) -> UIView {
-         let headerView = UIView()
-         headerView.backgroundColor = .white
-         
-         let label = UILabel()
-         label.text = title
-         label.font = .systemFont(ofSize: 18, weight: .bold)
-         label.textColor = .black
-         
-         headerView.addSubview(label)
-         label.translatesAutoresizingMaskIntoConstraints = false
-         
-         NSLayoutConstraint.activate([
-             label.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
-             label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-             headerView.heightAnchor.constraint(equalToConstant: 40)
-         ])
-         
-         return headerView
-     }
-     
-     private func createSectionStack(headerView: UIView, collectionView: UICollectionView) -> UIStackView {
-         let sectionStack = UIStackView(arrangedSubviews: [headerView, collectionView])
-         sectionStack.axis = .vertical
-         sectionStack.spacing = 8
-         return sectionStack
-     }
- }
+    private func setupCollectionView() {
+        // 각 섹션의 헤더 레이블 생성
+        let upcomingHeaderView = createHeaderView(title: "Upcoming Movies")
+        let nowPlayingHeaderView = createHeaderView(title: "Now Playing")
+        let popularHeaderView = createHeaderView(title: "Popular Movies")
+        
+        // 스택뷰에 헤더와 컬렉션뷰 추가
+        let upcomingStack = createSectionStack(headerView: upcomingHeaderView, collectionView: upcomingCollectionView)
+        let nowPlayingStack = createSectionStack(headerView: nowPlayingHeaderView, collectionView: nowPlayingCollectionView)
+        let popularStack = createSectionStack(headerView: popularHeaderView, collectionView: popularCollectionView)
+        
+        stackView.addArrangedSubview(upcomingStack)
+        stackView.addArrangedSubview(nowPlayingStack)
+        //         stackView.addArrangedSubview(popularStack)
+    }
+    
+    private func createHeaderView(title: String) -> UIView {
+        let headerView = UIView()
+        headerView.backgroundColor = .white
+        
+        let label = UILabel()
+        label.text = title
+        label.font = .systemFont(ofSize: 18, weight: .bold)
+        label.textColor = .black
+        
+        headerView.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
+            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        return headerView
+    }
+    
+    private func createSectionStack(headerView: UIView, collectionView: UICollectionView) -> UIStackView {
+        let sectionStack = UIStackView(arrangedSubviews: [headerView, collectionView])
+        sectionStack.axis = .vertical
+        sectionStack.spacing = 8
+        return sectionStack
+    }
+}
 
 extension MovieListViewController: MovieCellDelegate {
     func didTapMoviePoster(_ cell: MovieCell) {
@@ -287,9 +286,9 @@ extension MovieListViewController: MovieCellDelegate {
 
 
 
- // MARK: - UICollectionViewDelegateFlowLayout
- extension MovieListViewController: UICollectionViewDelegateFlowLayout {
-     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-         return CGSize(width: 140, height: 300)
-     }
- }
+// MARK: - UICollectionViewDelegateFlowLayout
+extension MovieListViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 140, height: 300)
+    }
+}

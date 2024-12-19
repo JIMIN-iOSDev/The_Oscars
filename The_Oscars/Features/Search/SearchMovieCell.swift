@@ -7,9 +7,9 @@
 
 import UIKit
 
-class MovieCell: UICollectionViewCell {
+class SearchMovieCell: UICollectionViewCell {
     
-    static let reuseIdentifier = "MovieCell"
+    static let reuseIdentifier = "SearchMovieCell"
     
     private let posterImageView: UIImageView = {
         let image = UIImageView()
@@ -27,7 +27,7 @@ class MovieCell: UICollectionViewCell {
         return label
     }()
     
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -36,7 +36,7 @@ class MovieCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func setupUI() {
         [posterImageView, titleLabel]
             .forEach { contentView.addSubview($0) }

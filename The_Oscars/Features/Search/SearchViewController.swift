@@ -42,7 +42,7 @@ class SearchViewController: UIViewController {
         let collectionCellWidth = (UIScreen.main.bounds.width - CVCell.spacingWidth * (CVCell.cellColumns - 1)) / CVCell.cellColumns
         
         // cell 등록
-        collectionView.register(MovieCell.self, forCellWithReuseIdentifier: "MovieCell")
+        collectionView.register(SearchMovieCell.self, forCellWithReuseIdentifier: "SearchMovieCell")
         collectionView.backgroundColor = .white
         
         collectionView.dataSource = self
@@ -170,7 +170,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     // 셀에 담을 데이터 표시
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // 재사용 가능한 셀을 꺼내서 사용하는 메서드
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as! MovieCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchMovieCell", for: indexPath) as! SearchMovieCell
         let movie = filteredMovies[indexPath.row]
         cell.configure(with: movie)
         return cell
