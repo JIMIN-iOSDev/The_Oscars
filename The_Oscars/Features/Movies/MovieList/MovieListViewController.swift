@@ -8,6 +8,7 @@ import UIKit
 import SnapKit
 
 class MovieListViewController: UIViewController {
+    
     // 네트워크
     private let networkManager = NetworkManager.shared
     private var upcomingMovies: [Movie] = [] // 개봉 예정 영화를 담을 배열
@@ -297,6 +298,7 @@ extension MovieListViewController: MovieCellDelegate {
         
         if let movie = selectedMovie {
             let bookingVC = MovieBookingViewController()
+            bookingVC.hidesBottomBarWhenPushed = true
             bookingVC.movie = movie
             bookingVC.modalPresentationStyle = .pageSheet // 모달 형식 설정
             present(bookingVC, animated: true, completion: nil) // 모달로 띄움
@@ -304,8 +306,10 @@ extension MovieListViewController: MovieCellDelegate {
     }
     
     private func presentMovieDetail(for movie: Movie) {
+        print(2222)
         // 상세 페이지로 이동하는 로
         let detailVC = MovieDetailController()
+        detailVC.hidesBottomBarWhenPushed = true
         detailVC.movie = movie
         navigationController?.pushViewController(detailVC, animated: true)
     }
