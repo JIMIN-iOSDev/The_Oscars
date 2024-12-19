@@ -8,12 +8,14 @@
 struct Booking: Codable {
     let movieName: String
     let date: String
+    let time: String
     let peopleCount: Int
     let totalPrice: Int
     
-    init(movieName: String, date: String, peopleCount: Int, totalPrice: Int) {
+    init(movieName: String, date: String, time: String, peopleCount: Int, totalPrice: Int) {
         self.movieName = movieName
         self.date = date
+        self.time = time
         self.peopleCount = peopleCount
         self.totalPrice = totalPrice
     }

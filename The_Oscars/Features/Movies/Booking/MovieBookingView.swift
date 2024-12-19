@@ -24,14 +24,14 @@ class MovieBookingView: UIView {
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .systemGray5 // 로딩 시 기본 배경색
+        imageView.backgroundColor = .white // 로딩 시 기본 배경색
         return imageView
     }()
     
     let movieNameLabel: UILabel = {
         let label = UILabel()
         label.text = "영화명"
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
         return label
     }()
     
@@ -139,19 +139,19 @@ class MovieBookingView: UIView {
         
         // Layout
         titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(90)
+            make.top.equalToSuperview().offset(30)
             make.leading.equalToSuperview().offset(20)
         }
         
         moviePosterImageView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(200) // 포스터 크기 고정
+            make.height.equalTo(350) // 포스터 크기 고정
         }
         
         movieNameLabel.snp.makeConstraints { make in
             make.top.equalTo(moviePosterImageView.snp.bottom).offset(20)
-            make.leading.equalToSuperview().offset(20)
+            make.centerX.equalToSuperview() // 가로 중앙 정렬
         }
         
         dateLabel.snp.makeConstraints { make in
@@ -160,30 +160,30 @@ class MovieBookingView: UIView {
         }
         
         peopleLabel.snp.makeConstraints { make in
-            make.top.equalTo(dateLabel.snp.bottom).offset(130)
+            make.top.equalTo(dateLabel.snp.bottom).offset(50)
             make.leading.equalToSuperview().offset(20)
         }
         
         countLabel.snp.makeConstraints { make in
             make.centerY.equalTo(peopleLabel)
-            make.centerX.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-60) // 부모 뷰의 오른쪽 끝에서 60pt 안쪽
             make.width.equalTo(50)
         }
         
         minusButton.snp.makeConstraints { make in
             make.centerY.equalTo(peopleLabel)
-            make.trailing.equalTo(countLabel.snp.leading).offset(-20)
+            make.trailing.equalTo(countLabel.snp.leading).offset(-10) // 숫자 라벨 왼쪽
             make.width.height.equalTo(40)
         }
         
         plusButton.snp.makeConstraints { make in
             make.centerY.equalTo(peopleLabel)
-            make.leading.equalTo(countLabel.snp.trailing).offset(20)
+            make.leading.equalTo(countLabel.snp.trailing).offset(10) // 숫자 라벨 오른쪽
             make.width.height.equalTo(40)
         }
         
         priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(peopleLabel.snp.bottom).offset(100)
+            make.top.equalTo(peopleLabel.snp.bottom).offset(50)
             make.leading.equalToSuperview().offset(20)
         }
         
@@ -193,23 +193,24 @@ class MovieBookingView: UIView {
         }
         
         bookButton.snp.makeConstraints { make in
-            make.top.equalTo(priceLabel.snp.bottom).offset(100)
+            make.top.equalTo(priceLabel.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(50)
         }
         
         dateButton.snp.makeConstraints { make in
-            make.top.equalTo(dateLabel.snp.bottom).offset(20)
-            make.leading.equalToSuperview().offset(20)
-            make.width.equalTo(120)
-            make.height.equalTo(40)
+            make.centerY.equalTo(dateLabel) // 날짜 라벨의 세로 중앙 정렬
+            make.trailing.equalToSuperview().offset(-140) // 부모 뷰의 오른쪽에서 140pt 안쪽
+            make.width.equalTo(120) // 버튼 너비
+            make.height.equalTo(40) // 버튼 높이
         }
         
         timeButton.snp.makeConstraints { make in
-            make.centerY.equalTo(dateButton)
-            make.leading.equalTo(dateButton.snp.trailing).offset(20)
-            make.width.equalTo(120)
-            make.height.equalTo(40)
+            make.centerY.equalTo(dateLabel) // 날짜 라벨의 세로 중앙 정렬
+            make.leading.equalTo(dateButton.snp.trailing).offset(10) // 날짜 선택 버튼 오른쪽에 배치
+            make.trailing.lessThanOrEqualToSuperview().offset(-20) // 부모 뷰의 오른쪽 끝에서 20pt 안쪽
+            make.width.equalTo(120) // 버튼 너비
+            make.height.equalTo(40) // 버튼 높이
         }
     }
 }
