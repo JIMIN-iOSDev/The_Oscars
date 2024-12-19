@@ -29,10 +29,10 @@ class SignupView: UIView {
         return button
     }()
     let passwordField = CustomTextField(title: "비밀번호", placeholder: "비밀번호를 입력해 주세요.")
-    private let passwordConfirmField = CustomTextField(title: "비밀번호 확인", placeholder: "비밀번호를 다시 입력해 주세요.")
-    private let emailField = CustomTextField(title: "이메일 주소", placeholder: "이메일 주소를 입력해 주세요.")
-    private let nameField = CustomTextField(title: "이름", placeholder: "OSCARS에서 사용할 이름을 입력해 주세요.")
-    private let phoneField = CustomTextField(title: "전화번호", placeholder: "번호를 '-' 제외하고 입력해 주세요.")
+    let passwordConfirmField = CustomTextField(title: "비밀번호 확인", placeholder: "비밀번호를 다시 입력해 주세요.")
+    let emailField = CustomTextField(title: "이메일 주소", placeholder: "이메일 주소를 입력해 주세요.")
+    let nameField = CustomTextField(title: "이름", placeholder: "OSCARS에서 사용할 이름을 입력해 주세요.")
+    let phoneField = CustomTextField(title: "전화번호", placeholder: "번호를 '-' 제외하고 입력해 주세요.")
     private let loginNavgationLabel: UILabel = {
         let label = UILabel()
         label.text = "이미 회원이신가요?"
@@ -68,6 +68,14 @@ class SignupView: UIView {
     // MARK: - initialize
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        idField.fieldType = .id
+        passwordField.fieldType = .password
+        passwordConfirmField.fieldType = .passwordConfirm
+        emailField.fieldType = .email
+        nameField.fieldType = .name
+        phoneField.fieldType = .phoneNumber
+        
         setupLayout()
     }
     

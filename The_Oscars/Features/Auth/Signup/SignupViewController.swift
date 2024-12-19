@@ -57,8 +57,77 @@ class SignupViewController: UIViewController {
     
     @objc
     private func signup() {
-        
-        showAlert(message: "회원가입 구현 예정")
+        var isValid = true
+
+        let idValidation = validator.validateFields(fieldType: .id, text: signupView.idField.text)
+        if !idValidation.0 {
+            signupView.idField.setErrorMessage(idValidation.1)
+            isValid = false
+        } else {
+            signupView.idField.setErrorMessage(nil)
+        }
+
+        let passwordValidation = validator.validateFields(fieldType: .password, text: signupView.passwordField.text)
+        if !passwordValidation.0 {
+            signupView.passwordField.setErrorMessage(passwordValidation.1)
+            isValid = false
+        } else {
+            signupView.passwordField.setErrorMessage(nil)
+        }
+
+        let passwordConfirmValidation = validator.validateFields(
+            fieldType: .passwordConfirm,
+            text: signupView.passwordConfirmField.text,
+            referenceText: signupView.passwordField.text
+        )
+        if !passwordConfirmValidation.0 {
+            signupView.passwordConfirmField.setErrorMessage(passwordConfirmValidation.1)
+            isValid = false
+        } else {
+            signupView.passwordConfirmField.setErrorMessage(nil)
+        }
+
+        let emailValidation = validator.validateFields(fieldType: .email, text: signupView.emailField.text)
+        if !emailValidation.0 {
+            signupView.emailField.setErrorMessage(emailValidation.1)
+            isValid = false
+        } else {
+            signupView.emailField.setErrorMessage(nil)
+        }
+
+        let nameValidation = validator.validateFields(fieldType: .name, text: signupView.nameField.text)
+        if !nameValidation.0 {
+            signupView.nameField.setErrorMessage(nameValidation.1)
+            isValid = false
+        } else {
+            signupView.nameField.setErrorMessage(nil)
+        }
+
+        let phoneValidation = validator.validateFields(fieldType: .phoneNumber, text: signupView.phoneField.text)
+        if !phoneValidation.0 {
+            signupView.phoneField.setErrorMessage(phoneValidation.1)
+            isValid = false
+        } else {
+            signupView.phoneField.setErrorMessage(nil)
+        }
+
+        if isValid {
+            let user = UserModel(
+                id: signupView.idField.text!,
+                password: signupView.passwordField.text!,
+                email: signupView.emailField.text!,
+                name: signupView.nameField.text!,
+                phone: signupView.phoneField.text!
+            )
+            
+            if UserDefaultsManager.shared.signupUser(user) {
+                showAlert(message: "회원가입 성공!")
+            } else {
+                showAlert(message: "회원가입 중 문제가 발생했습니다. 다시 시도해주세요.")
+            }
+        } else {
+            showAlert(message: "입력 정보를 다시 확인해 주세요.")
+        }
     }
     
     private func showAlert(message: String) {

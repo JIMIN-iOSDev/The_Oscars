@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 class CustomTextField: UIView, UITextFieldDelegate {
+    var fieldType: FieldType?
     // MARK: - UI Components
     private let titleLabel = UILabel()
     private let textField = UITextField()
@@ -19,8 +20,6 @@ class CustomTextField: UIView, UITextFieldDelegate {
         get { return textField.text }
         set { textField.text = newValue }
     }
-    
-    var validationHandler: ((String?) -> (Bool,String?))?
     
     // MARK: - 초기화
     init(title: String, placeholder: String) {
@@ -102,8 +101,20 @@ class CustomTextField: UIView, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let fieldType = self.fieldType else { return }
         let validator = Validator()
-//        let (isValid, text) = validator.validateFields(textField.text)
-        bottomBorder.backgroundColor = .gray
+        
+        let referenceText = fieldType == .passwordConfirm ?
+            (self.superview as? SignupView)?.passwordField.text : nil
+        
+        let (isValid, errorMessage) = validator.validateFields(fieldType: fieldType, text: textField.text, referenceText: referenceText)
+        
+        if isValid {
+            setErrorMessage(nil)
+            bottomBorder.backgroundColor = .gray
+        } else {
+            setErrorMessage(errorMessage)
+            bottomBorder.backgroundColor = .red
+        }
     }
 }
