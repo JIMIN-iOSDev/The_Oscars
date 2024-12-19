@@ -273,13 +273,10 @@ extension MovieListViewController: MovieCellDelegate {
     }
     
     private func presentMovieDetail(for movie: Movie) {
-        // 상세 페이지로 이동하는 로직
-        // MovieDetailViewController 구현 후 연결 필요
-        let alert = UIAlertController(title: movie.title,
-                                      message: movie.overview,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default))
-        present(alert, animated: true)
+        // 상세 페이지로 이동하는 로
+        let detailVC = MovieDetailController()
+        detailVC.movie = movie
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 
