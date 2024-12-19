@@ -181,6 +181,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
         let movie = filteredMovies[indexPath.row]
         // 상세 페이지 넘어가기
         let detailVC = MovieDetailController()
+        detailVC.hidesBottomBarWhenPushed = true
         detailVC.movie = movie
         navigationController?.pushViewController(detailVC, animated: true)
         
