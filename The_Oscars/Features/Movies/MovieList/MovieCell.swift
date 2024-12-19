@@ -5,6 +5,7 @@
 //  Created by YangJeongMu on 12/18/24.
 //
 import UIKit
+import SnapKit
 
 // MARK: - MovieCellDelegate
 protocol MovieCellDelegate: AnyObject {
@@ -110,28 +111,29 @@ class MovieCell: UICollectionViewCell {
         [viewerCountLabel, heartButton, ratingLabel].forEach {
             infoStackView.addArrangedSubview($0)
         }
-
         
-        NSLayoutConstraint.activate([
-            posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: 1.4),
-            
-            bookingButton.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 8),
-            bookingButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            bookingButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            bookingButton.heightAnchor.constraint(equalToConstant: 30),
-            
-            titleLabel.topAnchor.constraint(equalTo: bookingButton.bottomAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            
-            infoStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
-            infoStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            infoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            infoStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
-        ])
+        
+        posterImageView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(posterImageView.snp.width).multipliedBy(1.4)
+        }
+        
+        bookingButton.snp.makeConstraints { make in
+            make.top.equalTo(posterImageView.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(30)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(bookingButton.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview()
+        }
+        
+        infoStackView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(4)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-8)
+        }
         
     }
     
@@ -183,7 +185,6 @@ class MovieCell: UICollectionViewCell {
         ratingLabel.text = nil
         viewerCountLabel.text = nil
     }
-    
     
     private func loadImage(from urlString: String) {
         guard let url = URL(string: urlString) else { return }

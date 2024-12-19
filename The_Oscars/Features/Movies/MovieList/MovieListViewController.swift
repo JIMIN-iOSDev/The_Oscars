@@ -4,7 +4,6 @@
 //
 //  Created by eden on 12/13/24.
 //
-
 import UIKit
 import SnapKit
 
@@ -24,7 +23,6 @@ class MovieListViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     
     // Upcoming Collection View
     private lazy var upcomingCollectionView: UICollectionView = {
@@ -141,8 +139,7 @@ class MovieListViewController: UIViewController {
             }
         }
     }
-    
-    
+
     // MARK: - Setup
     private func setupUI() {
         view.backgroundColor = .white
@@ -169,7 +166,6 @@ class MovieListViewController: UIViewController {
             make.width.equalTo(159)
             make.height.equalTo(40)
         }
-        
         
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(10)
@@ -220,12 +216,10 @@ extension MovieListViewController: UICollectionViewDelegate, UICollectionViewDat
             return UICollectionViewCell()
         }
         
-        
         cell.configure(with: movie)
         
         return cell
     }
-    
     
     // MARK: - Collection View Setup
     private func setupCollectionView() {
@@ -254,17 +248,20 @@ extension MovieListViewController: UICollectionViewDelegate, UICollectionViewDat
         label.textColor = .black
         
         headerView.addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
-            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 40)
-        ])
+        // SnapKit을 사용한 제약조건 설정
+        label.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(16)
+            make.centerY.equalToSuperview()
+        }
+        
+        headerView.snp.makeConstraints { make in
+            make.height.equalTo(40)
+        }
         
         return headerView
     }
-    
+
     private func createSectionStack(headerView: UIView, collectionView: UICollectionView) -> UIStackView {
         let sectionStack = UIStackView(arrangedSubviews: [headerView, collectionView])
         sectionStack.axis = .vertical
@@ -313,9 +310,6 @@ extension MovieListViewController: MovieCellDelegate {
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }
-
-
-
 
 // MARK: - UICollectionViewDelegateFlowLayout
 extension MovieListViewController: UICollectionViewDelegateFlowLayout {
