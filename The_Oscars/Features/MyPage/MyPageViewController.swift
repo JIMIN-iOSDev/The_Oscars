@@ -89,7 +89,7 @@ class MyPageViewController: UIViewController {
         // 예매된 첫 번째 영화 정보를 표시 (예제)
         if let booking = bookings.first {
             myPageView.movieTitleLabel.text = booking.movieName
-            myPageView.movieTimeTextLabel.text = "날짜: \(booking.date)"
+            myPageView.movieDateLabel.text = "날짜: \(booking.date)"
             myPageView.movieTimeLabel.text = "시간: \(booking.time)"
             myPageView.ticketCountLabel.text = "인원: \(booking.peopleCount)명"
         }

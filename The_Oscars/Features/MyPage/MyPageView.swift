@@ -30,7 +30,7 @@ class MyPageView: UIView {
     let movieTitleLabel = UILabel()
     let movieInfoStackView = UIStackView()
     let theaterNameLabel = UILabel()
-    let movieTimeTextLabel = UILabel()
+    let movieDateLabel = UILabel()
     let movieTimeLabel = UILabel()
     let ticketCountLabel = UILabel()
     
@@ -128,11 +128,11 @@ class MyPageView: UIView {
         theaterNameLabel.font = .boldSystemFont(ofSize: 16)
         theaterNameLabel.textColor = .black
         
-        movieTimeTextLabel.text = ""
-        movieTimeTextLabel.font = .boldSystemFont(ofSize: 16)
-        movieTimeTextLabel.textColor = .black
-        movieTimeTextLabel.numberOfLines = 0
-        movieTimeTextLabel.lineBreakMode = .byWordWrapping
+        movieDateLabel.text = ""
+        movieDateLabel.font = .boldSystemFont(ofSize: 16)
+        movieDateLabel.textColor = .black
+        movieDateLabel.numberOfLines = 0
+        movieDateLabel.lineBreakMode = .byWordWrapping
 
         
         movieTimeLabel.text = ""
@@ -179,7 +179,7 @@ class MyPageView: UIView {
         bookingStackView.addArrangedSubview(posterImageView)
         bookingStackView.addArrangedSubview(movieInfoStackView)
         movieInfoStackView.addArrangedSubview(theaterNameLabel)
-        movieInfoStackView.addArrangedSubview(movieTimeTextLabel)
+        movieInfoStackView.addArrangedSubview(movieDateLabel)
         movieInfoStackView.addArrangedSubview(movieTimeLabel)
         movieInfoStackView.addArrangedSubview(ticketCountLabel)
         
@@ -255,7 +255,7 @@ class MyPageView: UIView {
         
         movieTitleLabel.snp.makeConstraints {
             $0.top.equalTo(posterImageView.snp.bottom).offset(20)
-            $0.leading.equalTo(bookingContainerView).offset(44)
+            $0.centerX.equalToSuperview()
         }
         
         movieInfoStackView.snp.makeConstraints {
