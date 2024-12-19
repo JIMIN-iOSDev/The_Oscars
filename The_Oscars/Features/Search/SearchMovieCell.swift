@@ -9,7 +9,7 @@ import UIKit
 
 class SearchMovieCell: UICollectionViewCell {
     
-    static let reuseIdentifier = "MovieCell"
+    static let reuseIdentifier = "SearchMovieCell"
     
     private let posterImageView: UIImageView = {
         let image = UIImageView()
