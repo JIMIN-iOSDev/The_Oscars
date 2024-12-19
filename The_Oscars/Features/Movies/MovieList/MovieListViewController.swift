@@ -285,7 +285,6 @@ extension MovieListViewController: MovieCellDelegate {
     }
     // 예매 페이지로 이동하는 로직 구현
     func didTapBookingButton(_ cell: MovieCell) {
-        // 해당 셀의 영화 정보 가져오기
         var selectedMovie: Movie?
 
         if let indexPath = upcomingCollectionView.indexPath(for: cell) {
@@ -299,7 +298,8 @@ extension MovieListViewController: MovieCellDelegate {
         if let movie = selectedMovie {
             let bookingVC = MovieBookingViewController()
             bookingVC.movie = movie
-            navigationController?.pushViewController(bookingVC, animated: true)
+            bookingVC.modalPresentationStyle = .pageSheet // 모달 형식 설정
+            present(bookingVC, animated: true, completion: nil) // 모달로 띄움
         }
     }
     
