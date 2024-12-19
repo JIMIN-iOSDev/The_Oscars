@@ -15,6 +15,16 @@ class MovieListViewController: UIViewController {
     private var nowPlayingMovies: [Movie] = []
     private var popularMovies: [Movie] = []
     
+    // 상단 로고
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "OSCARS"
+        label.textColor = UIColor(red: 0.929, green: 0.808, blue: 0.333, alpha: 1)
+        label.font = .systemFont(ofSize: 36, weight: .regular)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     
     // Upcoming Collection View
     private lazy var upcomingCollectionView: UICollectionView = {
@@ -77,6 +87,7 @@ class MovieListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.setNavigationBarHidden(true, animated: false)
         setupCollectionView()
         loadMovieData()
         setupUI()
@@ -136,6 +147,9 @@ class MovieListViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .white
         
+        // 타이틀 레이블 추가
+        view.addSubview(titleLabel)
+        
         // 스택뷰 설정 값
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -148,15 +162,25 @@ class MovieListViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(stackView)
         
+        // 타이틀 레이블 제약조건
+        titleLabel.snp.makeConstraints{ make in
+            make.leading.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(60)
+            make.width.equalTo(159)
+            make.height.equalTo(40)
+        }
+        
         
         scrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(titleLabel.snp.bottom).offset(10)
+            make.leading.trailing.bottom.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         stackView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView.contentLayoutGuide)
             make.width.equalToSuperview()
-            make.height.equalTo(700)
+            make.height.equalTo(1050)
         }
         
     }
@@ -217,7 +241,7 @@ extension MovieListViewController: UICollectionViewDelegate, UICollectionViewDat
         
         stackView.addArrangedSubview(upcomingStack)
         stackView.addArrangedSubview(nowPlayingStack)
-        //         stackView.addArrangedSubview(popularStack)
+        stackView.addArrangedSubview(popularStack)
     }
     
     private func createHeaderView(title: String) -> UIView {
@@ -271,8 +295,8 @@ extension MovieListViewController: MovieCellDelegate {
             selectedMovie = upcomingMovies[indexPath.item]
         } else if let indexPath = nowPlayingCollectionView.indexPath(for: cell) {
             selectedMovie = nowPlayingMovies[indexPath.item]
-//        } else if let indexPath = popularMoviesCollectionView.indexPath(for: cell) {
-//            selectedMovie = popularMovies[idexPath.item]
+        } else if let indexPath = popularCollectionView.indexPath(for: cell) {
+            selectedMovie = popularMovies[indexPath.item]
         }
         
         if let movie = selectedMovie {
