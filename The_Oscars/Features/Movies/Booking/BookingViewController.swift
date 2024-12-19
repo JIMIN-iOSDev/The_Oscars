@@ -84,25 +84,36 @@ class MovieBookingViewController: UIViewController {
             showAlert(message: "날짜와 시간을 선택해주세요!")
             return
         }
-        
-        let totalPrice = peopleCount * 5000 // 총 가격 계산
-        let booking = Booking(movieName: movieName, date: date, time: time, peopleCount: peopleCount, totalPrice: totalPrice) // Booking 객체 생성
-        
-        UserDefaultsManager.shared.saveBooking(booking) // UserDefaults에 저장
+
+        let totalPrice = peopleCount * 5000
+        let booking = Booking(movieName: movieName, date: date, time: time, peopleCount: peopleCount, totalPrice: totalPrice)
+
+        UserDefaultsManager.shared.saveBooking(booking)
         print("예매 정보가 저장되었습니다: \(booking)")
-        
-        // 네비게이션 스택에서 MovieListViewController로 이동
-        if let movieListVC = navigationController?.viewControllers.first(where: { $0 is MovieListViewController }) {
-            navigationController?.popToViewController(movieListVC, animated: true)
-        } else {
-            print("MovieListViewController가 네비게이션 스택에 없습니다.")
-        }
+
+        // TabBarViewController로 이동
+        navigateToTabBar()
     }
+
+    // TabBarViewController로 이동하는 메서드
+    private func navigateToTabBar() {
+        let tabBarVC = TabBarViewController()
+        // 네비게이션 스택 초기화 및 TabBarViewController 설정
+            if let navigationController = navigationController {
+                navigationController.setViewControllers([tabBarVC], animated: true)
+            } else {
+                // 네비게이션 컨트롤러가 없을 경우 모달로 표시
+                tabBarVC.modalPresentationStyle = .fullScreen
+                present(tabBarVC, animated: true, completion: nil)
+            }
+        }
     
+    // Alert 메시지 표시 메서드
     private func showAlert(message: String) {
         let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default))
-        present(alert, animated: true)
+        let confirmAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alert.addAction(confirmAction)
+        present(alert, animated: true, completion: nil)
     }
     
     //MARK: - Date and Time Pickers
@@ -118,6 +129,12 @@ class MovieBookingViewController: UIViewController {
         datePicker.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 150)
         datePickerVC.view.addSubview(datePicker)
         
+        // 확인 버튼 컨테이너 뷰
+        let confirmContainerView = UIView()
+        confirmContainerView.backgroundColor = .white
+        confirmContainerView.translatesAutoresizingMaskIntoConstraints = false
+
+        // 확인 버튼
         let confirmButton = UIButton(type: .system)
         confirmButton.setTitle("확인", for: .normal)
         confirmButton.frame = CGRect(x: 0, y: 150, width: view.frame.width, height: 50)
