@@ -147,7 +147,7 @@ class MyPageView: UIView {
         // Footer
         oscarsLabel.text = "OSCARS"
         oscarsLabel.font = .boldSystemFont(ofSize: 45)
-        oscarsLabel.textColor = .systemYellow
+        oscarsLabel.textColor = UIColor(red: 237/255, green: 206/255, blue: 85/255, alpha: 1.0)
         
 //        footerTextStackView.axis = .vertical
 //        footerTextStackView.spacing = 5

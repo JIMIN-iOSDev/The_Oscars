@@ -16,10 +16,12 @@ class TabBarViewController: UITabBarController {
     }
     
     private func setupTabBar() {
-        
         let movieListVC = MovieListViewController()
+        let movieListNavVC = UINavigationController(rootViewController: movieListVC)
         let searchVC = SearchViewController()
+        let searchNavVC = UINavigationController(rootViewController: searchVC)
         let mypageVC = MyPageViewController()
+        let mypageNavVC = UINavigationController(rootViewController: mypageVC)
         
         //탭바 아이템 설정
         movieListVC.tabBarItem = UITabBarItem(title: "홈", image: UIImage(systemName: "house.fill"), tag: 0)
@@ -28,6 +30,6 @@ class TabBarViewController: UITabBarController {
         
         self.tabBar.tintColor = .black
         
-        viewControllers = [movieListVC, searchVC, mypageVC]
+        viewControllers = [movieListNavVC, searchNavVC, mypageNavVC]
     }
 }

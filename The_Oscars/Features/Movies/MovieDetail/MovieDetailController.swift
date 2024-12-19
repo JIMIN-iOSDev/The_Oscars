@@ -9,7 +9,6 @@ import UIKit
 import SnapKit
 
 class MovieDetailController: UIViewController {
-    
     var movie: Movie?
     
     //MARK: - UI Components
@@ -66,8 +65,8 @@ class MovieDetailController: UIViewController {
     private lazy var bookingButton: UIButton = {
         let button = UIButton()
         button.setTitle("예매하기", for: .normal)
-        button.setTitleColor(.systemYellow, for: .normal)
-        button.layer.borderColor = UIColor.systemYellow.cgColor
+        button.setTitleColor(UIColor(red: 237/255, green: 206/255, blue: 85/255, alpha: 1.0), for: .normal)
+        button.layer.borderColor = UIColor(red: 237/255, green: 206/255, blue: 85/255, alpha: 1.0).cgColor
         button.layer.borderWidth = 2
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(bookingButtonTapped), for: .touchUpInside)
@@ -88,12 +87,12 @@ class MovieDetailController: UIViewController {
     }
     
     // MARK: - 예매 버튼 액션
-        @objc private func bookingButtonTapped() {
-            let bookingVC = MovieBookingViewController() // 예매 페이지 인스턴스 생성
-            bookingVC.modalPresentationStyle = .pageSheet // 모달 스타일 설정
-            bookingVC.movie = movie // 예매 페이지에 영화 정보 전달
-            present(bookingVC, animated: true, completion: nil) // 모달 띄우기
-        }
+    @objc private func bookingButtonTapped() {
+        let bookingVC = MovieBookingViewController() // 예매 페이지 인스턴스 생성
+        bookingVC.modalPresentationStyle = .pageSheet // 모달 스타일 설정
+        bookingVC.movie = movie // 예매 페이지에 영화 정보 전달
+        present(bookingVC, animated: true, completion: nil) // 모달 띄우기
+    }
     
     private func loadMovieDetails() {
         guard let movie = movie else { return }
