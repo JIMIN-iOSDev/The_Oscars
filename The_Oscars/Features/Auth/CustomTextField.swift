@@ -20,17 +20,7 @@ class CustomTextField: UIView, UITextFieldDelegate {
         set { textField.text = newValue }
     }
     
-    func setErrorMessage(_ message: String?) {
-        if let message = message {
-            errorLabel.text = message
-            errorLabel.isHidden = false
-            bottomBorder.backgroundColor = .red
-        } else {
-            errorLabel.text = nil
-            errorLabel.isHidden = true
-            bottomBorder.backgroundColor = .gray
-        }
-    }
+    var validationHandler: ((String?) -> (Bool,String?))?
     
     // MARK: - 초기화
     init(title: String, placeholder: String) {
@@ -94,12 +84,26 @@ class CustomTextField: UIView, UITextFieldDelegate {
         }
     }
     
+    func setErrorMessage(_ message: String?) {
+        if let message = message {
+            errorLabel.text = message
+            errorLabel.isHidden = false
+            bottomBorder.backgroundColor = .red
+        } else {
+            errorLabel.text = nil
+            errorLabel.isHidden = true
+            bottomBorder.backgroundColor = .gray
+        }
+    }
+    
     // MARK: - UITextFieldDelegate Methods
     func textFieldDidBeginEditing(_ textField: UITextField) {
         bottomBorder.backgroundColor = UIColor(red: 237/255, green: 206/255, blue: 85/255, alpha: 1.0)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        let validator = Validator()
+        let (isValid, text) = validator.validateFields(textField.text)
         bottomBorder.backgroundColor = .gray
     }
 }

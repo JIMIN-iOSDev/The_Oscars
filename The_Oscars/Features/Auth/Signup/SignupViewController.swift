@@ -9,8 +9,8 @@ import UIKit
 import SnapKit
 
 class SignupViewController: UIViewController {
-    // MARK: - UI Components
     private let signupView = SignupView()
+    private let validator = Validator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +57,7 @@ class SignupViewController: UIViewController {
     
     @objc
     private func signup() {
-        // TODO: - UserDefault 사용해서 구현 예정
+        
         showAlert(message: "회원가입 구현 예정")
     }
     

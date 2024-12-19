@@ -7,14 +7,32 @@
 
 import UIKit
 
-extension SignupViewController {
-    func validateFields() -> Bool {
-        var isValid = true
-        
-        return isValid
+enum fieldType {
+    case id
+    case password
+    case email
+    case phone
+    case none
+}
+
+struct Validator {
+    func validateFields() -> (Bool, String) {
+        if let id = id, !isValidId(id) {
+           return (false, "아이디는 영어와 숫자 조합이어야 합니다.")
+        }
+        if let password = password, !isValidPassword(password) {
+           return (false, "비밀번호는 영어, 숫자 포함 8자 이상이어야 합니다.")
+        }
+        if let email = email, !isValidEmail(email) {
+           return (false, "아이디는 영어와 숫자 조합이어야 합니다.")
+        }
+        if let phone = id, !isValidPhone(phone) {
+           return (false, "아이디는 영어와 숫자 조합이어야 합니다.")
+        }
+        return (true, "123")
     }
     
-    private func isValidUserId(_ id: String) -> Bool {
+    private func isValidId(_ id: String) -> Bool {
         let regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{1,}$"
         return NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: id)
     }
@@ -29,7 +47,7 @@ extension SignupViewController {
         return NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: email)
     }
     
-    private func isValidPhoneNumber(_ phone: String) -> Bool {
+    private func isValidPhone(_ phone: String) -> Bool {
         let regex = "^010\\d{8}$"
         return NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: phone)
     }
