@@ -18,6 +18,25 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupActions()
+        saveTemporaryUser()
+    }
+    
+    func saveTemporaryUser() {
+        let tempUser = UserModel(
+            id: "testuser",
+            password: "password123",
+            email: "testuser@example.com",
+            name: "임시 사용자",
+            phone: "010-0000-0000"
+        )
+
+        let signupSuccess = UserDefaultsManager.shared.signupUser(tempUser)
+
+        if signupSuccess {
+            print("임시 사용자 생성 성공")
+        } else {
+            print("임시 사용자 생성 실패")
+        }
     }
     
     
@@ -27,10 +46,10 @@ class LoginViewController: UIViewController {
         loginView.findIdPasswordButton.addTarget(self, action: #selector(findIdPasswordButtonTapped), for: .touchUpInside)
     }
     
-    private func navigateToMyPage() {
-        let myPageVC = MyPageViewController() // MyPageViewController는 미리 생성된 상태여야 합니다.
-        myPageVC.modalPresentationStyle = .fullScreen
-        present(myPageVC, animated: true, completion: nil)
+    private func navigateToTabBar() {
+        let tabBarVC = TabBarViewController()
+        tabBarVC.modalPresentationStyle = .fullScreen
+        present(tabBarVC, animated: true, completion: nil)
     }
     
     private func showAlert(message: String, completion: (() -> Void)? = nil) {
@@ -52,7 +71,7 @@ class LoginViewController: UIViewController {
         
         if success {
             showAlert(message: "로그인 성공!", completion: {
-                self.navigateToMyPage()
+                self.navigateToTabBar()
             })
         } else {
             showAlert(message: "아이디 또는 비밀번호가 잘못되었습니다.")

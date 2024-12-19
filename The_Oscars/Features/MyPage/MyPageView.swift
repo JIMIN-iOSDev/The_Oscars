@@ -36,7 +36,7 @@ class MyPageView: UIView {
     
     // Footer
     let oscarsLabel = UILabel()
-    let footerTextStackView = UIStackView()
+//    let footerTextStackView = UIStackView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -56,7 +56,7 @@ class MyPageView: UIView {
     }
     
     private func setupViews() {
-        backgroundColor = .darkGray
+        backgroundColor = .white
         
         // 헤더 그라데이션 설정
         gradientLayer.colors = [UIColor.systemYellow.cgColor, UIColor.systemYellow.cgColor]
@@ -70,15 +70,15 @@ class MyPageView: UIView {
         myPageLabel.textColor = .black
         myPageLabel.textAlignment = .center
         
-        userNameLabel.text = "김민지님"
+        userNameLabel.text = ""
         userNameLabel.font = .boldSystemFont(ofSize: 26)
         userNameLabel.textColor = .black
         
-        userIdLabel.text = "아이디"
+        userIdLabel.text = ""
         userIdLabel.font = .systemFont(ofSize: 18)
         userIdLabel.textColor = .black
         
-        userEmailLabel.text = "이메일주소"
+        userEmailLabel.text = ""
         userEmailLabel.font = .systemFont(ofSize: 18)
         userEmailLabel.textColor = .black
         
@@ -94,10 +94,10 @@ class MyPageView: UIView {
         // 예매 내역 타이틀
         bookingHistoryTitleLabel.text = "예매 내역"
         bookingHistoryTitleLabel.font = .boldSystemFont(ofSize: 30)
-        bookingHistoryTitleLabel.textColor = .white
+        bookingHistoryTitleLabel.textColor = .black
         
         // 예매 내역 컨테이너 뷰
-        bookingContainerView.backgroundColor = .gray
+        bookingContainerView.backgroundColor = .darkGray
         bookingContainerView.layer.cornerRadius = 10
         
         // 예매 내역 스택뷰
@@ -118,42 +118,42 @@ class MyPageView: UIView {
         movieInfoStackView.axis = .vertical
         movieInfoStackView.spacing = 40
         movieInfoStackView.alignment = .leading
-        movieInfoStackView.distribution = .fill
+        movieInfoStackView.distribution = .fillEqually
         
         theaterNameLabel.text = "스파르타 상영관"
-        theaterNameLabel.font = .boldSystemFont(ofSize: 20)
+        theaterNameLabel.font = .boldSystemFont(ofSize: 16)
         theaterNameLabel.textColor = .white
         
-        movieTimeTextLabel.text = "상영 시간"
-        movieTimeTextLabel.font = .boldSystemFont(ofSize: 20)
+        movieTimeTextLabel.text = "날짜"
+        movieTimeTextLabel.font = .boldSystemFont(ofSize: 16)
         movieTimeTextLabel.textColor = .white
         
-        movieTimeLabel.text = "00시 00분"
+        movieTimeLabel.text = "상영시간"
         movieTimeLabel.font = .systemFont(ofSize: 16)
         movieTimeLabel.textColor = .white
         
         ticketCountLabel.text = "매표 개수"
-        ticketCountLabel.font = .boldSystemFont(ofSize: 20)
+        ticketCountLabel.font = .boldSystemFont(ofSize: 16)
         ticketCountLabel.textColor = .white
         
         
         // Footer
         oscarsLabel.text = "OSCARS"
-        oscarsLabel.font = .boldSystemFont(ofSize: 30)
+        oscarsLabel.font = .boldSystemFont(ofSize: 45)
         oscarsLabel.textColor = .systemYellow
         
-        footerTextStackView.axis = .vertical
-        footerTextStackView.spacing = 5
-        footerTextStackView.alignment = .leading
-        ["레포 주소 레포 주소 레포 주소",
-         "레포 주소 레포 주소 레포 주소",
-         "레포 주소 레포 주소 레포 주소"].forEach {
-            let label = UILabel()
-            label.text = $0
-            label.textColor = .white
-            label.font = .systemFont(ofSize: 18)
-            footerTextStackView.addArrangedSubview(label)
-        }
+//        footerTextStackView.axis = .vertical
+//        footerTextStackView.spacing = 5
+//        footerTextStackView.alignment = .leading
+//        ["레포 주소 레포 주소 레포 주소",
+//         "레포 주소 레포 주소 레포 주소",
+//         "레포 주소 레포 주소 레포 주소"].forEach {
+//            let label = UILabel()
+//            label.text = $0
+//            label.textColor = .white
+//            label.font = .systemFont(ofSize: 18)
+//            footerTextStackView.addArrangedSubview(label)
+//        }
         
         
         addSubview(headerView)
@@ -177,7 +177,7 @@ class MyPageView: UIView {
         movieInfoStackView.addArrangedSubview(ticketCountLabel)
         
         addSubview(oscarsLabel)
-        addSubview(footerTextStackView)
+//        addSubview(footerTextStackView)
     }
     
     
@@ -248,7 +248,7 @@ class MyPageView: UIView {
         
         movieTitleLabel.snp.makeConstraints {
             $0.top.equalTo(posterImageView.snp.bottom).offset(20)
-            $0.leading.equalTo(bookingContainerView).offset(60)
+            $0.leading.equalTo(bookingContainerView).offset(44)
         }
         
         movieInfoStackView.snp.makeConstraints {
@@ -259,13 +259,13 @@ class MyPageView: UIView {
         }
         
         oscarsLabel.snp.makeConstraints {
-            $0.bottom.equalTo(footerTextStackView.snp.top).offset(-10)
-            $0.leading.equalToSuperview().offset(padding)
+            $0.bottom.equalToSuperview().offset(-100)
+            $0.trailing.equalToSuperview().offset(-40)
         }
         
-        footerTextStackView.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-80)
-            $0.leading.equalToSuperview().offset(padding)
-        }
+//        footerTextStackView.snp.makeConstraints {
+//            $0.bottom.equalToSuperview().offset(-80)
+//            $0.leading.equalToSuperview().offset(padding)
+//        }
     }
 }
