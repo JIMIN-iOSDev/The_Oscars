@@ -13,6 +13,7 @@ class MovieBookingViewController: UIViewController {
     let bookingView = MovieBookingView() // 커스텀 뷰 추가
     
     // MARK: - Variables
+    var movie: Movie? // 전달받은 영화 정보
     var peopleCount: Int = 0 {
         didSet {
             bookingView.countLabel.text = "\(peopleCount)"
@@ -25,9 +26,35 @@ class MovieBookingViewController: UIViewController {
         super.viewDidLoad()
         view = bookingView
         setupActions()
+        loadMovieDetails() // 영화 정보 로드
     }
     
-    // MARK: - Actions
+    // MARK: - Load Movie Details
+        private func loadMovieDetails() {
+            guard let movie = movie else { return }
+            
+            // 영화명 설정
+            bookingView.movieNameLabel.text = movie.title
+            
+            // 포스터 이미지 로드
+            if let posterPath = movie.posterPath {
+                let urlString = "https://image.tmdb.org/t/p/w500\(posterPath)"
+                loadPosterImage(from: urlString)
+            }
+        }
+        
+        private func loadPosterImage(from urlString: String) {
+            guard let url = URL(string: urlString) else { return }
+            URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+                guard let self = self, let data = data, error == nil else { return }
+                
+                DispatchQueue.main.async {
+                    self.bookingView.moviePosterImageView.image = UIImage(data: data)
+                }
+            }.resume()
+        }
+    
+    // MARK: - Setup Actions
     private func setupActions() {
         bookingView.plusButton.addTarget(self, action: #selector(increasePeopleCount), for: .touchUpInside)
         bookingView.minusButton.addTarget(self, action: #selector(decreasePeopleCount), for: .touchUpInside)
@@ -36,6 +63,7 @@ class MovieBookingViewController: UIViewController {
         bookingView.bookButton.addTarget(self, action: #selector(bookMovie), for: .touchUpInside)
     }
     
+    //MARK: - Actions
     @objc private func increasePeopleCount() {
         if peopleCount < 10 {
             peopleCount += 1
@@ -52,7 +80,7 @@ class MovieBookingViewController: UIViewController {
             guard let movieName = bookingView.movieNameLabel.text,
                   let date = bookingView.dateButton.title(for: .normal),
                   let time = bookingView.timeButton.title(for: .normal) else {
-                print("필요한 정보가 없습니다!")
+                showAlert(message: "모든 정보를 입력해주세요.")
                 return
             }
             
@@ -72,21 +100,28 @@ class MovieBookingViewController: UIViewController {
             }
         }
     
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        present(alert, animated: true)
+    }
+        
+    //MARK: - Date and Time Pickers
     @objc private func showDatePicker() { // 날짜 데이터
         let datePickerVC = UIViewController()
         datePickerVC.modalPresentationStyle = .pageSheet
-        datePickerVC.preferredContentSize = CGSize(width: view.frame.width, height: 250)
+        datePickerVC.preferredContentSize = CGSize(width: view.frame.width, height: 200)
         
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.locale = Locale(identifier: "ko_KR")
-        datePicker.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 200)
+        datePicker.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 150)
         datePickerVC.view.addSubview(datePicker)
         
         let confirmButton = UIButton(type: .system)
         confirmButton.setTitle("확인", for: .normal)
-        confirmButton.frame = CGRect(x: 0, y: 200, width: view.frame.width, height: 50)
+        confirmButton.frame = CGRect(x: 0, y: 150, width: view.frame.width, height: 50)
         confirmButton.addAction(UIAction(handler: { _ in
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy/MM/dd"
@@ -95,41 +130,31 @@ class MovieBookingViewController: UIViewController {
         }), for: .touchUpInside)
         datePickerVC.view.addSubview(confirmButton)
         
-        // AutoLayout 설정
-        NSLayoutConstraint.activate([
-            datePicker.centerXAnchor.constraint(equalTo: datePickerVC.view.centerXAnchor),
-            datePicker.topAnchor.constraint(equalTo: datePickerVC.view.topAnchor, constant: 10),
-            confirmButton.centerXAnchor.constraint(equalTo: datePickerVC.view.centerXAnchor),
-            confirmButton.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 10),
-            confirmButton.heightAnchor.constraint(equalToConstant: 40)
-        ])
+        // 모달 창에 커스텀 높이 적용
+            if let sheet = datePickerVC.sheetPresentationController {
+                sheet.detents = [.custom { _ in 200 }] // 전체 모달 창 높이를 200pt로 고정
+                sheet.prefersGrabberVisible = true
+                sheet.preferredCornerRadius = 20
+            }
         
-        // 모달을 맨 아래에 위치시키기
-        if let sheet = datePickerVC.sheetPresentationController {
-            sheet.detents = [.custom { _ in 250 }] // 높이를 250pt로 고정
-            sheet.prefersGrabberVisible = true // 상단 핸들 표시
-            sheet.preferredCornerRadius = 20   // 모달 상단의 라운드 처리
-        }
-        
-        // 화이트 배경 적용
         presentWithWhiteBackground(datePickerVC, animated: true)
     }
     
     @objc private func showTimePicker() { //시간 데이터
         let timePickerVC = UIViewController()
         timePickerVC.modalPresentationStyle = .pageSheet
-        timePickerVC.preferredContentSize = CGSize(width: view.frame.width, height: 250)
+        timePickerVC.preferredContentSize = CGSize(width: view.frame.width, height: 200)
         
         let timePicker = UIDatePicker()
         timePicker.datePickerMode = .time
         timePicker.preferredDatePickerStyle = .wheels
         timePicker.locale = Locale(identifier: "ko_KR")
-        timePicker.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 200)
+        timePicker.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 150)
         timePickerVC.view.addSubview(timePicker)
         
         let confirmButton = UIButton(type: .system)
         confirmButton.setTitle("확인", for: .normal)
-        confirmButton.frame = CGRect(x: 0, y: 200, width: view.frame.width, height: 50)
+        confirmButton.frame = CGRect(x: 0, y: 150, width: view.frame.width, height: 50)
         confirmButton.addAction(UIAction(handler: { _ in
             let formatter = DateFormatter()
             formatter.dateFormat = "h:mm a"
@@ -138,26 +163,16 @@ class MovieBookingViewController: UIViewController {
         }), for: .touchUpInside)
         timePickerVC.view.addSubview(confirmButton)
         
-        // AutoLayout 설정
-        NSLayoutConstraint.activate([
-            timePicker.centerXAnchor.constraint(equalTo: timePickerVC.view.centerXAnchor),
-            timePicker.topAnchor.constraint(equalTo: timePickerVC.view.topAnchor, constant: 10),
-            confirmButton.centerXAnchor.constraint(equalTo: timePickerVC.view.centerXAnchor),
-            confirmButton.topAnchor.constraint(equalTo: timePicker.bottomAnchor, constant: 10),
-            confirmButton.heightAnchor.constraint(equalToConstant: 40)
-        ])
+        // 모달 창에 커스텀 높이 적용
+            if let sheet = timePickerVC.sheetPresentationController {
+                sheet.detents = [.custom { _ in 200 }] // 전체 모달 창 높이를 200pt로 고정
+                sheet.prefersGrabberVisible = true
+                sheet.preferredCornerRadius = 20
+            }
         
-        // 모달을 맨 아래에 위치시키기
-        if let sheet = timePickerVC.sheetPresentationController {
-            sheet.detents = [.custom { _ in 250 }] // 높이를 250pt로 고정
-            sheet.prefersGrabberVisible = true // 상단 핸들 표시
-            sheet.preferredCornerRadius = 20   // 모달 상단의 라운드 처리
-        }
-        
-        // 화이트 배경 적용
         presentWithWhiteBackground(timePickerVC, animated: true)
     }
-    
+        
     // MARK: - Update Total Price
     private func updateTotalPrice() {
         let totalPrice = peopleCount * 5000

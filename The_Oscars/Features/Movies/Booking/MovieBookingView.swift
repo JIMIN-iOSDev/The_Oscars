@@ -19,6 +19,15 @@ class MovieBookingView: UIView {
         return label
     }()
     
+    let moviePosterImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 10
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .systemGray5 // 로딩 시 기본 배경색
+        return imageView
+    }()
+    
     let movieNameLabel: UILabel = {
         let label = UILabel()
         label.text = "영화명"
@@ -89,7 +98,7 @@ class MovieBookingView: UIView {
         return button
     }()
     
-    let dateButton: UIButton = { // 날짜 선택 버튼
+    let dateButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("날짜 선택", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
@@ -99,7 +108,7 @@ class MovieBookingView: UIView {
         return button
     }()
 
-    let timeButton: UIButton = { // 시간 선택 버튼
+    let timeButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("시간 선택", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
@@ -124,7 +133,7 @@ class MovieBookingView: UIView {
         backgroundColor = .white
         
         // Add Subviews
-        [titleLabel, movieNameLabel, dateLabel, peopleLabel, countLabel, minusButton, plusButton, priceLabel, priceValueLabel, bookButton, dateButton, timeButton].forEach {
+        [titleLabel, moviePosterImageView, movieNameLabel, dateLabel, peopleLabel, countLabel, minusButton, plusButton, priceLabel, priceValueLabel, bookButton, dateButton, timeButton].forEach {
             addSubview($0)
         }
         
@@ -134,13 +143,19 @@ class MovieBookingView: UIView {
             make.leading.equalToSuperview().offset(20)
         }
         
+        moviePosterImageView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(200) // 포스터 크기 고정
+        }
+        
         movieNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(50)
+            make.top.equalTo(moviePosterImageView.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(20)
         }
         
         dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(movieNameLabel.snp.bottom).offset(130)
+            make.top.equalTo(movieNameLabel.snp.bottom).offset(30)
             make.leading.equalToSuperview().offset(20)
         }
         
