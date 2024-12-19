@@ -107,7 +107,7 @@ class MovieBookingView: UIView {
         button.layer.cornerRadius = 8
         return button
     }()
-
+    
     let timeButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("시간 선택", for: .normal)
@@ -204,7 +204,7 @@ class MovieBookingView: UIView {
             make.width.equalTo(120)
             make.height.equalTo(40)
         }
-
+        
         timeButton.snp.makeConstraints { make in
             make.centerY.equalTo(dateButton)
             make.leading.equalTo(dateButton.snp.trailing).offset(20)

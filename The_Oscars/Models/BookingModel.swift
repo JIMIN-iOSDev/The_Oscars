@@ -22,7 +22,7 @@ struct Booking: Codable {
 // 저장한 데이터 마이페이지로 호출
 // let bookings = UserDefaultsManager.shared.getBookings()
 // bookings.forEach { booking in
-  //  print("영화명: \(booking.movieName), 날짜: \(booking.date), 인원: \(booking.peopleCount), 총 가격: \(booking.totalPrice)원")
+//  print("영화명: \(booking.movieName), 날짜: \(booking.date), 인원: \(booking.peopleCount), 총 가격: \(booking.totalPrice)원")
 // }
 
 

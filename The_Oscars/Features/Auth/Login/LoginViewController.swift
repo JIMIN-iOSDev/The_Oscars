@@ -5,7 +5,6 @@
 //  Created by t2023-m0149 on 12/17/24.
 //
 
-import Foundation
 import UIKit
 
 class LoginViewController: UIViewController {
@@ -41,7 +40,7 @@ class LoginViewController: UIViewController {
         }))
         present(alert, animated: true, completion: nil)
     }
-
+    
     @objc private func loginButtonTapped() {
         guard let id = loginView.idTextField.text, !id.isEmpty,
               let password = loginView.passwordTextField.text, !password.isEmpty else {

@@ -5,7 +5,6 @@
 //  Created by t2023-m0149 on 12/17/24.
 //
 
-import Foundation
 import UIKit
 import SnapKit
 
@@ -30,7 +29,7 @@ class LoginView: UIView {
         setupLayout()
     }
     
-
+    
     private func setupViews() {
         backgroundColor = .white
         
@@ -42,7 +41,7 @@ class LoginView: UIView {
         
         // 아이디 입력 필드 설정
         setupTextField(idTextField, placeholder: "아이디")
-
+        
         
         // 비밀번호 입력 필드 설정
         setupTextField(passwordTextField, placeholder: "비밀번호", isSecure: true)
@@ -73,7 +72,7 @@ class LoginView: UIView {
         addSubview(findIdPasswordButton)
     }
     
-
+    
     private func setupLayout() {
         let padding: CGFloat = 20
         

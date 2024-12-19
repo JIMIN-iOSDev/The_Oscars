@@ -27,7 +27,7 @@ class SearchMovieCell: UICollectionViewCell {
         return label
     }()
     
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -36,7 +36,7 @@ class SearchMovieCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func setupUI() {
         [posterImageView, titleLabel]
             .forEach { contentView.addSubview($0) }

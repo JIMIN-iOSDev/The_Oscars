@@ -13,10 +13,10 @@ class MyPageViewController: UIViewController {
     
     let myPageView = MyPageView()
     
-//    override func loadView() {
-//        view = myPageView
-//    }
-//    
+    //    override func loadView() {
+    //        view = myPageView
+    //    }
+    //    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupActions()
