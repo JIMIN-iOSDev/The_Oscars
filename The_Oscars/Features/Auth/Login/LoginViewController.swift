@@ -18,26 +18,26 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupActions()
-        saveTemporaryUser()
+//        saveTemporaryUser()
     }
     
-    func saveTemporaryUser() {
-        let tempUser = UserModel(
-            id: "testuser",
-            password: "password123",
-            email: "testuser@example.com",
-            name: "임시 사용자",
-            phone: "010-0000-0000"
-        )
-
-        let signupSuccess = UserDefaultsManager.shared.signupUser(tempUser)
-
-        if signupSuccess {
-            print("임시 사용자 생성 성공")
-        } else {
-            print("임시 사용자 생성 실패")
-        }
-    }
+//    func saveTemporaryUser() {
+//        let tempUser = UserModel(
+//            id: "testuser",
+//            password: "password123",
+//            email: "testuser@example.com",
+//            name: "임시 사용자",
+//            phone: "010-0000-0000"
+//        )
+//
+//        let signupSuccess = UserDefaultsManager.shared.signupUser(tempUser)
+//
+//        if signupSuccess {
+//            print("임시 사용자 생성 성공")
+//        } else {
+//            print("임시 사용자 생성 실패")
+//        }
+//    }
     
     
     private func setupActions() {

@@ -88,7 +88,9 @@ class MyPageView: UIView {
         logoutButton.layer.cornerRadius = 5
         
         menuButton.setImage(UIImage(systemName: "line.horizontal.3"), for: .normal)
+        menuButton.tintColor = .black
         homeButton.setImage(UIImage(systemName: "house.fill"), for: .normal)
+        homeButton.tintColor = .black
         
         
         // 예매 내역 타이틀
@@ -97,7 +99,9 @@ class MyPageView: UIView {
         bookingHistoryTitleLabel.textColor = .black
         
         // 예매 내역 컨테이너 뷰
-        bookingContainerView.backgroundColor = .darkGray
+        bookingContainerView.backgroundColor = .white
+        bookingContainerView.layer.borderWidth = 1
+        bookingContainerView.layer.borderColor = UIColor(red: 218/255, green: 165/255, blue: 32/255, alpha: 1.0).cgColor
         bookingContainerView.layer.cornerRadius = 10
         
         // 예매 내역 스택뷰
@@ -113,28 +117,31 @@ class MyPageView: UIView {
         movieTitleLabel.text = ""
         movieTitleLabel.font = .boldSystemFont(ofSize: 30)
         movieTitleLabel.textAlignment = .center
-        movieTitleLabel.textColor = .white
+        movieTitleLabel.textColor = .black
         
         movieInfoStackView.axis = .vertical
         movieInfoStackView.spacing = 40
-        movieInfoStackView.alignment = .leading
-        movieInfoStackView.distribution = .fillEqually
+        movieInfoStackView.alignment = .fill
+        movieInfoStackView.distribution = .fill
         
         theaterNameLabel.text = "스파르타 상영관"
         theaterNameLabel.font = .boldSystemFont(ofSize: 16)
-        theaterNameLabel.textColor = .white
+        theaterNameLabel.textColor = .black
         
         movieTimeTextLabel.text = ""
         movieTimeTextLabel.font = .boldSystemFont(ofSize: 16)
-        movieTimeTextLabel.textColor = .white
+        movieTimeTextLabel.textColor = .black
+        movieTimeTextLabel.numberOfLines = 0
+        movieTimeTextLabel.lineBreakMode = .byWordWrapping
+
         
         movieTimeLabel.text = ""
-        movieTimeLabel.font = .systemFont(ofSize: 16)
-        movieTimeLabel.textColor = .white
+        movieTimeLabel.font = .boldSystemFont(ofSize: 16)
+        movieTimeLabel.textColor = .black
         
         ticketCountLabel.text = ""
         ticketCountLabel.font = .boldSystemFont(ofSize: 16)
-        ticketCountLabel.textColor = .white
+        ticketCountLabel.textColor = .black
         
         
         // Footer

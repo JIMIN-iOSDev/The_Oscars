@@ -110,7 +110,11 @@ class MyPageViewController: UIViewController {
     
     
     @objc private func homeButtonTapped() {
-        print("홈 버튼이 눌렸습니다.")
+        let tabBarVC = TabBarViewController()
+        if let window = UIApplication.shared.windows.first {
+            window.rootViewController = tabBarVC
+            window.makeKeyAndVisible()
+        }
     }
     
     @objc private func menuButtonTapped() {
