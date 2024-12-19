@@ -110,7 +110,7 @@ class MyPageView: UIView {
         posterImageView.layer.cornerRadius = 5
         posterImageView.clipsToBounds = true
         
-        movieTitleLabel.text = "영화 제목"
+        movieTitleLabel.text = ""
         movieTitleLabel.font = .boldSystemFont(ofSize: 30)
         movieTitleLabel.textAlignment = .center
         movieTitleLabel.textColor = .white
@@ -124,15 +124,15 @@ class MyPageView: UIView {
         theaterNameLabel.font = .boldSystemFont(ofSize: 16)
         theaterNameLabel.textColor = .white
         
-        movieTimeTextLabel.text = "날짜"
+        movieTimeTextLabel.text = ""
         movieTimeTextLabel.font = .boldSystemFont(ofSize: 16)
         movieTimeTextLabel.textColor = .white
         
-        movieTimeLabel.text = "상영시간"
+        movieTimeLabel.text = ""
         movieTimeLabel.font = .systemFont(ofSize: 16)
         movieTimeLabel.textColor = .white
         
-        ticketCountLabel.text = "매표 개수"
+        ticketCountLabel.text = ""
         ticketCountLabel.font = .boldSystemFont(ofSize: 16)
         ticketCountLabel.textColor = .white
         

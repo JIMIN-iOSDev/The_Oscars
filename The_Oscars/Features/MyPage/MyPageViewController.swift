@@ -23,6 +23,8 @@ class MyPageViewController: UIViewController {
         view.backgroundColor = .white
         setupMyPageView()
         setupUserInfo()
+        displayBookings()
+        saveTemporaryBooking()
     }
     
     
@@ -75,6 +77,37 @@ class MyPageViewController: UIViewController {
         loginVC.modalPresentationStyle = .fullScreen
         present(loginVC, animated: true, completion: nil)
     }
+    
+    private func displayBookings() {
+        let bookings = UserDefaultsManager.shared.getBookings()
+        
+        if bookings.isEmpty {
+            myPageView.bookingHistoryTitleLabel.text = "예매 내역이 없습니다."
+            return
+        }
+        
+        // 예매된 첫 번째 영화 정보를 표시 (예제)
+        if let booking = bookings.first {
+            myPageView.movieTitleLabel.text = booking.movieName
+            myPageView.movieTimeTextLabel.text = "날짜: \(booking.date)"
+            myPageView.movieTimeLabel.text = "시간: \(booking.time)"
+            myPageView.ticketCountLabel.text = "인원: \(booking.peopleCount)명"
+        }
+    }
+    
+    func saveTemporaryBooking() {
+        let tempBooking = Booking(
+            movieName: "임시 영화",
+            date: "2024-12-25",
+            time: "19:00",
+            peopleCount: 2,
+            totalPrice: 20000
+        )
+
+        UserDefaultsManager.shared.saveBooking(tempBooking)
+        print("임시 예매 정보 저장 성공")
+    }
+    
     
     @objc private func homeButtonTapped() {
         print("홈 버튼이 눌렸습니다.")
