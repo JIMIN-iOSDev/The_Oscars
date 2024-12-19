@@ -60,22 +60,22 @@ class MovieCell: UICollectionViewCell {
     private let infoStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.distribution = .equalSpacing
+        stack.distribution = .fill
         stack.alignment = .center
-        stack.spacing = 8
+        stack.spacing = 4
         return stack
     }()
     
     private let viewerCountLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 12)
+        label.font = .systemFont(ofSize: 13)
         label.textColor = .gray
         return label
     }()
     
     private let heartButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "heart"), for: .normal)
+        button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         button.tintColor = .red
         return button
     }()
@@ -110,6 +110,7 @@ class MovieCell: UICollectionViewCell {
         [viewerCountLabel, heartButton, ratingLabel].forEach {
             infoStackView.addArrangedSubview($0)
         }
+
         
         NSLayoutConstraint.activate([
             posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
