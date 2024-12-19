@@ -4,12 +4,6 @@
 //
 //  Created by YangJeongMu on 12/18/24.
 //
-
-
-// 바로 예매페이지 누르면 예매 페이지 누르기
-// 영화 세부 페이지면 상세페이지 넘어가기
-// 영화 포스트 누르면 세부 페이지 넘어가기
-
 import UIKit
 
 // MARK: - MovieCellDelegate
@@ -38,9 +32,20 @@ class MovieCell: UICollectionViewCell {
     private let bookingButton: UIButton = {
         let button = UIButton()
         button.setTitle("바로예매", for: .normal)
-        button.backgroundColor = .systemBlue
-        button.layer.cornerRadius = 8
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        // 텍스트 색상을 흰색으로 설정
+        button.setTitleColor(.white, for: .normal)
+        // 배경색을 골드 컬러로 설정
+        button.backgroundColor = UIColor(red: 0.929, green: 0.808, blue: 0.333, alpha: 1)
+        // 테두리 설정
+        button.layer.cornerRadius = 10
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor(red: 0.929, green: 0.808, blue: 0.333, alpha: 1).cgColor
+        // 폰트 설정 (Inter-Bold 폰트가 없을 경우를 대비해 systemFont도 설정)
+        if let customFont = UIFont(name: "Inter-Bold", size: 11) {
+            button.titleLabel?.font = customFont
+        } else {
+            button.titleLabel?.font = .systemFont(ofSize: 11, weight: .bold)
+        }
         return button
     }()
     
