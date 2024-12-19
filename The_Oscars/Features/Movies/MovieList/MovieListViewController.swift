@@ -4,7 +4,6 @@
 //
 //  Created by eden on 12/13/24.
 //
-
 import UIKit
 import SnapKit
 
@@ -15,6 +14,15 @@ class MovieListViewController: UIViewController {
     private var nowPlayingMovies: [Movie] = []
     private var popularMovies: [Movie] = []
     
+    // 상단 로고
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "OSCARS"
+        label.textColor = UIColor(red: 0.929, green: 0.808, blue: 0.333, alpha: 1)
+        label.font = .systemFont(ofSize: 36, weight: .regular)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     // Upcoming Collection View
     private lazy var upcomingCollectionView: UICollectionView = {
@@ -77,6 +85,7 @@ class MovieListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.setNavigationBarHidden(true, animated: false)
         setupCollectionView()
         loadMovieData()
         setupUI()
@@ -130,11 +139,13 @@ class MovieListViewController: UIViewController {
             }
         }
     }
-    
-    
+
     // MARK: - Setup
     private func setupUI() {
         view.backgroundColor = .white
+        
+        // 타이틀 레이블 추가
+        view.addSubview(titleLabel)
         
         // 스택뷰 설정 값
         stackView.axis = .vertical
@@ -148,15 +159,24 @@ class MovieListViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(stackView)
         
+        // 타이틀 레이블 제약조건
+        titleLabel.snp.makeConstraints{ make in
+            make.leading.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(60)
+            make.width.equalTo(159)
+            make.height.equalTo(40)
+        }
         
         scrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(titleLabel.snp.bottom).offset(10)
+            make.leading.trailing.bottom.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         stackView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView.contentLayoutGuide)
             make.width.equalToSuperview()
-            make.height.equalTo(700)
+            make.height.equalTo(1050)
         }
         
     }
@@ -196,12 +216,10 @@ extension MovieListViewController: UICollectionViewDelegate, UICollectionViewDat
             return UICollectionViewCell()
         }
         
-        
         cell.configure(with: movie)
         
         return cell
     }
-    
     
     // MARK: - Collection View Setup
     private func setupCollectionView() {
@@ -217,7 +235,7 @@ extension MovieListViewController: UICollectionViewDelegate, UICollectionViewDat
         
         stackView.addArrangedSubview(upcomingStack)
         stackView.addArrangedSubview(nowPlayingStack)
-        //         stackView.addArrangedSubview(popularStack)
+        stackView.addArrangedSubview(popularStack)
     }
     
     private func createHeaderView(title: String) -> UIView {
@@ -230,17 +248,20 @@ extension MovieListViewController: UICollectionViewDelegate, UICollectionViewDat
         label.textColor = .black
         
         headerView.addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
-            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 40)
-        ])
+        // SnapKit을 사용한 제약조건 설정
+        label.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(16)
+            make.centerY.equalToSuperview()
+        }
+        
+        headerView.snp.makeConstraints { make in
+            make.height.equalTo(40)
+        }
         
         return headerView
     }
-    
+
     private func createSectionStack(headerView: UIView, collectionView: UICollectionView) -> UIStackView {
         let sectionStack = UIStackView(arrangedSubviews: [headerView, collectionView])
         sectionStack.axis = .vertical
@@ -262,29 +283,33 @@ extension MovieListViewController: MovieCellDelegate {
             presentMovieDetail(for: movie)
         }
     }
+    // 예매 페이지로 이동하는 로직 구현
     func didTapBookingButton(_ cell: MovieCell) {
-        // 예매 페이지로 이동하는 로직 구현
-        // 현재는 임시로 알림만 표시
-        let alert = UIAlertController(title: "예매하기",
-                                      message: "예매 페이지로 이동합니다.",
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default))
-        present(alert, animated: true)
+        // 해당 셀의 영화 정보 가져오기
+        var selectedMovie: Movie?
+
+        if let indexPath = upcomingCollectionView.indexPath(for: cell) {
+            selectedMovie = upcomingMovies[indexPath.item]
+        } else if let indexPath = nowPlayingCollectionView.indexPath(for: cell) {
+            selectedMovie = nowPlayingMovies[indexPath.item]
+        } else if let indexPath = popularCollectionView.indexPath(for: cell) {
+            selectedMovie = popularMovies[indexPath.item]
+        }
+        
+        if let movie = selectedMovie {
+            let bookingVC = MovieBookingViewController()
+            bookingVC.movie = movie
+            navigationController?.pushViewController(bookingVC, animated: true)
+        }
     }
     
     private func presentMovieDetail(for movie: Movie) {
-        // 상세 페이지로 이동하는 로직
-        // MovieDetailViewController 구현 후 연결 필요
-        let alert = UIAlertController(title: movie.title,
-                                      message: movie.overview,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default))
-        present(alert, animated: true)
+        // 상세 페이지로 이동하는 로
+        let detailVC = MovieDetailController()
+        detailVC.movie = movie
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }
-
-
-
 
 // MARK: - UICollectionViewDelegateFlowLayout
 extension MovieListViewController: UICollectionViewDelegateFlowLayout {
