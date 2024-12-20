@@ -86,7 +86,7 @@ class MovieBookingViewController: UIViewController {
         }
 
         let totalPrice = peopleCount * 5000
-        let booking = Booking(movieName: movieName, date: date, time: time, peopleCount: peopleCount, totalPrice: totalPrice)
+        let booking = Booking(movieName: movieName, date: date, time: time, peopleCount: peopleCount, totalPrice: totalPrice, posterPath: movie?.posterPath)
 
         UserDefaultsManager.shared.saveBooking(booking)
         print("예매 정보가 저장되었습니다: \(booking)")

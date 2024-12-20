@@ -138,6 +138,8 @@ class MyPageView: UIView {
         movieTimeLabel.text = ""
         movieTimeLabel.font = .boldSystemFont(ofSize: 16)
         movieTimeLabel.textColor = .black
+        movieTimeLabel.numberOfLines = 0
+        movieTimeLabel.lineBreakMode = .byWordWrapping
         
         ticketCountLabel.text = ""
         ticketCountLabel.font = .boldSystemFont(ofSize: 16)
