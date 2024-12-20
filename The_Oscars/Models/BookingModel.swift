@@ -11,13 +11,15 @@ struct Booking: Codable {
     let time: String
     let peopleCount: Int
     let totalPrice: Int
+    let posterPath: String?
     
-    init(movieName: String, date: String, time: String, peopleCount: Int, totalPrice: Int) {
+    init(movieName: String, date: String, time: String, peopleCount: Int, totalPrice: Int, posterPath: String? = nil) {
         self.movieName = movieName
         self.date = date
         self.time = time
         self.peopleCount = peopleCount
         self.totalPrice = totalPrice
+        self.posterPath = posterPath
     }
 }
 

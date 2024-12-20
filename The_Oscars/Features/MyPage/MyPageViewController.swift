@@ -24,7 +24,6 @@ class MyPageViewController: UIViewController {
         setupMyPageView()
         setupUserInfo()
         displayBookings()
-        saveTemporaryBooking()
     }
     
     
@@ -79,33 +78,30 @@ class MyPageViewController: UIViewController {
     }
     
     private func displayBookings() {
-        let bookings = UserDefaultsManager.shared.getBookings()
-        
-        if bookings.isEmpty {
-            myPageView.bookingHistoryTitleLabel.text = "예매 내역이 없습니다."
-            return
-        }
-        
-        // 예매된 첫 번째 영화 정보를 표시 (예제)
-        if let booking = bookings.first {
-            myPageView.movieTitleLabel.text = booking.movieName
-            myPageView.movieDateLabel.text = "날짜: \(booking.date)"
-            myPageView.movieTimeLabel.text = "시간: \(booking.time)"
-            myPageView.ticketCountLabel.text = "인원: \(booking.peopleCount)명"
+        // 목 데이터 생성
+        let bookingList = UserDefaultsManager.shared.getBookings()
+        if let mockBooking = bookingList.last {
+            myPageView.movieTitleLabel.text = mockBooking.movieName
+            myPageView.movieDateLabel.text = "날짜: \(mockBooking.date)"
+            myPageView.movieTimeLabel.text = "시간: \(mockBooking.time)"
+            myPageView.ticketCountLabel.text = "인원: \(mockBooking.peopleCount)명"
+            
+            if let posterPath = mockBooking.posterPath {
+                let urlString = "https://image.tmdb.org/t/p/w500\(posterPath)"
+                loadPosterImage(from: urlString)
+            }
         }
     }
     
-    func saveTemporaryBooking() {
-        let tempBooking = Booking(
-            movieName: "임시 영화",
-            date: "2024-12-25",
-            time: "19:00",
-            peopleCount: 2,
-            totalPrice: 20000
-        )
-
-        UserDefaultsManager.shared.saveBooking(tempBooking)
-        print("임시 예매 정보 저장 성공")
+    private func loadPosterImage(from urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+            guard let self = self, let data = data, error == nil else { return }
+            
+            DispatchQueue.main.async {
+                self.myPageView.posterImageView.image = UIImage(data: data)
+            }
+        }.resume()
     }
     
     
