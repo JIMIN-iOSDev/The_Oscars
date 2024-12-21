@@ -13,11 +13,11 @@
 </br>
 
 ## 👨‍💻 팀원
-박유빈: 리더, 프로젝트 세팅, 회원가입, UserDefaultsManager, NetworkManager
-서지민: 영화 검색, 영화 세부
-서현욱: 로그인, 마이페이지
-양정무: 런치스크린, 탭바, 영화 리스트
-오푸른솔: 영화 예매, BookManager
+* 박유빈: 리더, 프로젝트 세팅, 회원가입, UserDefaultsManager, NetworkManager
+* 서지민: 영화 검색, 영화 세부
+* 서현욱: 로그인, 마이페이지
+* 양정무: 런치스크린, 탭바, 영화 리스트
+* 오푸른솔: 영화 예매, BookManager
 
 </br>
 
