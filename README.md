@@ -232,8 +232,3 @@
 과제 발제 자료, 넷플릭스, 메가박스, CGV, 롯데시네마 앱
 
 <br>
-
-## 👥 팀 프로젝트 링크
-
-- [노션](https://teamsparta.notion.site/The-5scars-5c797b1b25f4417997c54d99104c789d)
-- [피그마](https://www.figma.com/proto/MBY3mkgHjG6p6UEm6SzzGG/%EC%98%81%ED%99%94%EB%A5%BC-%EC%98%88%EB%A7%A4%ED%95%98%EC%9E%90~?node-id=0-1&t=qBHXJBATBGT3cPW6-1)
